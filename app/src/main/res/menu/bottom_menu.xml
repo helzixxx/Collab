@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/chat"
+        android:enabled="true"
+        android:icon="@drawable/ic_chat"
+        android:iconTint="@color/blue3"
+        android:title=""
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/cards"
+        android:enabled="true"
+        android:icon="@drawable/ic_tabler_cards"
+        android:iconTint="@color/blue3"
+        android:title=""
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/profile"
+        android:enabled="true"
+        android:icon="@drawable/ic_profile"
+        android:iconTint="@color/blue3"
+        android:title=""
+        app:showAsAction="always"/>
+</menu>
