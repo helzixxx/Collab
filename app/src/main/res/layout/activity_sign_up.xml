@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/logo"
             android:layout_marginStart="35dp"
-            android:layout_marginTop="56dp"
+            android:layout_marginTop="10dp"
             android:gravity="center"
             android:text="Create an account"
             android:textColor="@color/black"
@@ -46,7 +46,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/logo"
             android:layout_marginStart="35dp"
-            android:layout_marginTop="92dp"
+            android:layout_marginTop="55dp"
             android:gravity="center"
             android:text="Become a member"
             android:textColor="@color/black"
@@ -56,19 +56,47 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/mem"
+            android:layout_alignParentBottom="true"
             android:layout_marginHorizontal="25dp"
-            android:layout_marginTop="100dp"
+            android:layout_marginBottom="50dp"
             android:orientation="vertical">
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/userName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Name"
+                    android:inputType="text" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Email"
+                    android:inputType="text" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/loginText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Login"
+                    android:hint="Phone"
                     android:inputType="text" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -90,7 +118,7 @@
                 android:id="@+id/signupBtn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="50dp"
+                android:layout_marginTop="40dp"
                 android:backgroundTint="@color/blue4"
                 android:text="Sign Up"
                 android:textColor="@android:color/white"
