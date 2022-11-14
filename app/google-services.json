@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "162808881011",
+    "firebase_url": "https://collab-7d335-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "collab-7d335",
+    "storage_bucket": "collab-7d335.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:162808881011:android:e6e982dc731387bbb36f06",
+        "android_client_info": {
+          "package_name": "com.helzi.collab"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "162808881011-ee7r6chajpg3n14qpoo9d7jbghtv9cj9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCHhc9PAfxdnzKLCoq8dnbOX16ryUQMSRc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "162808881011-ee7r6chajpg3n14qpoo9d7jbghtv9cj9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
