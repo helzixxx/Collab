@@ -7,18 +7,21 @@
         android:enabled="true"
         android:icon="@drawable/ic_filter"
         android:title=""
+        android:visible="false"
         app:showAsAction="always"/>
 
     <item
         android:id="@+id/settings"
         android:enabled="true"
         android:icon="@drawable/ic_settings"
+        android:visible="false"
         android:title=""
         app:showAsAction="always"/>
 
     <item
         android:id="@+id/search"
         android:enabled="true"
+        android:visible="false"
         android:icon="@drawable/ic_search"
         android:title=""
         app:showAsAction="always"/>

@@ -48,16 +48,15 @@ class LoginActivity : AppCompatActivity() {
             return
         }
 
-        auth.signInWithEmailAndPassword(email, password)
-            .addOnCompleteListener(this) { task ->
-                if (task.isSuccessful) {
-                    Toast.makeText(this, "Jesteś zalogowany", Toast.LENGTH_SHORT).show()
-                    val user = auth.currentUser
-                    val intent = Intent(this, MainActivity::class.java)
-                    startActivity(intent)
-                } else {
-                    Toast.makeText(this, "Logowanie nie powiodło się!", Toast.LENGTH_SHORT).show()
-                }
+        auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this) { task ->
+            if (task.isComplete && task.isSuccessful) {
+                Toast.makeText(this, "Jesteś zalogowany", Toast.LENGTH_SHORT).show()
+                val user = auth.currentUser
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
+            } else {
+                Toast.makeText(this, "Logowanie nie powiodło się!", Toast.LENGTH_SHORT).show()
             }
+        }
     }
 }

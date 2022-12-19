@@ -90,14 +90,15 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp">
+                android:layout_marginTop="20dp"
+                app:passwordToggleEnabled="true">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/phoneNumber"
+                    android:id="@+id/passwordTextOne"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Telefon"
-                    android:inputType="text" />
+                    android:hint="Hasło"
+                    android:inputType="textPassword" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -107,10 +108,10 @@
                 app:passwordToggleEnabled="true">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/passwordText"
+                    android:id="@+id/passwordTextTwo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Hasło"
+                    android:hint="Powtórz hasło"
                     android:inputType="textPassword" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -135,7 +136,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="10dp"
-                    android:text="Jesteś zalogowany?" />
+                    android:text="Już masz konto?" />
 
                 <TextView
                     android:id="@+id/redirectLogin"
