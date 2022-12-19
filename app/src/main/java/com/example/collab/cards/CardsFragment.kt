@@ -1,17 +1,18 @@
-package com.example.collab.profileCards
+package com.example.collab.cards
 
 
 import android.os.Bundle
 import android.view.*
 import androidx.appcompat.widget.Toolbar
 import androidx.cardview.widget.CardView
-import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import com.example.collab.MainActivity
 import com.example.collab.R
 
 
-class ProfileCardFragment : Fragment() {
+class CardsFragment : Fragment() {
+
+
 
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
@@ -39,8 +40,8 @@ class ProfileCardFragment : Fragment() {
     }
 
     companion object {
-        fun newInstance(): ProfileCardFragment {
-            return ProfileCardFragment()
+        fun newInstance(): CardsFragment {
+            return CardsFragment()
         }
     }
 

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SettingsActivity">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:ignore="MissingConstraints">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/topAppBar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:menu="@menu/top_menu"
+            app:navigationIcon="@drawable/ic_arrow_back"
+            app:title="Ustawienia" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appBarLayout"
+        app:layout_constraintVertical_bias="0.313">
+
+        <Button
+            android:id="@+id/personalData"
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:gravity="center_vertical"
+            android:paddingStart="15dp"
+            android:text="Dane osobowe"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            tools:ignore="HardcodedText,RtlSymmetry" />
+
+        <Button
+            android:id="@+id/appInfo"
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_marginTop="20dp"
+            android:gravity="center_vertical"
+            android:paddingStart="15dp"
+            android:text="O aplikacji"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            tools:ignore="HardcodedText,RtlSymmetry" />
+
+        <Button
+            android:id="@+id/devInfo"
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_marginTop="20dp"
+            android:gravity="center_vertical"
+            android:paddingStart="15dp"
+            android:text="O developerze"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            tools:ignore="HardcodedText,RtlSymmetry" />
+
+        <Button
+            android:id="@+id/regulamin"
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_marginTop="20dp"
+            android:gravity="center_vertical"
+            android:paddingStart="15dp"
+            android:text="Regulamin"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            tools:ignore="HardcodedText,RtlSymmetry" />
+
+        <Button
+            android:id="@+id/problemReport"
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_marginTop="20dp"
+            android:gravity="center_vertical"
+            android:paddingStart="15dp"
+            android:text="Zgłoś problem"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            tools:ignore="HardcodedText,RtlSymmetry" />
+
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/logOut"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:foregroundGravity="bottom"
+        android:text="Wyloguj się"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:ignore="HardcodedText,RtlSymmetry" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
