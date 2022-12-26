@@ -26,14 +26,6 @@
             android:visibility="gone"
             app:srcCompat="@drawable/ic_arrow_back" />
 
-        <ImageView
-            android:id="@+id/logo"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:padding="13dp"
-            app:srcCompat="@drawable/ic_collab_logo" />
-
-
     </androidx.appcompat.widget.Toolbar>
 
     <LinearLayout
