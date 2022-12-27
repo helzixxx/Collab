@@ -26,4 +26,12 @@
         android:title=""
         app:showAsAction="always"/>
 
+    <item
+        android:id="@+id/save"
+        android:enabled="true"
+        android:visible="false"
+        android:icon="@drawable/ic_save"
+        android:title=""
+        app:showAsAction="always"/>
+
 </menu>
