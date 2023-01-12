@@ -44,7 +44,7 @@
                 android:layout_centerHorizontal="true"
                 android:scaleType="centerCrop"
                 app:shapeAppearanceOverlay="@style/circleImageView"
-                app:srcCompat="@drawable/pexels_frank_cone_2258536" />
+                app:srcCompat="@drawable/defaut_profile_image" />
 
 
             <ImageView

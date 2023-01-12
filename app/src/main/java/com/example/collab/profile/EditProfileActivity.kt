@@ -33,8 +33,8 @@ class EditProfileActivity : AppCompatActivity() {
         setContentView(R.layout.activity_edit_profile)
         context = this
 
-        databaseReference = FirebaseDatabase.getInstance().getReference("Users")
-
+        val userId = intent.getStringExtra("UserId")
+        databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(userId!!)
 
         editTextName = findViewById(R.id.nameEditText)
         surnameEditText = findViewById(R.id.surnameEditText)

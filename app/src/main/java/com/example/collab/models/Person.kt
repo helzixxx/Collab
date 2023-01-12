@@ -6,15 +6,14 @@ import java.io.Serializable
 import java.util.ArrayList
 
 data class Person constructor(
-    var id: String,
-    var firstName: String,
-    var secondName: String,
-    var age: String,
-    var profession: String,
-    var bio: String,
-    var placeName: String,
-    var profileImage: String,
-    var musicalInstruments: ArrayList<Instrument>): Serializable, Parcelable {
+    var id: String? = "",
+    var name: String? = "",
+    var surname: String? = "",
+    var profileImage: String? = "",
+    var age: String? = "",
+    var profession: String? = "",
+    var country: String? = "",
+    var bio: String? = ""): Serializable, Parcelable {
 
     constructor(parcel: Parcel) : this(
         parcel.readString()!!,
@@ -24,20 +23,19 @@ data class Person constructor(
         parcel.readString()!!,
         parcel.readString()!!,
         parcel.readString()!!,
-        parcel.readString()!!,
-        parcel.createTypedArrayList(Instrument.CREATOR)!!
+        parcel.readString()!!
     ) {
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(id)
-        parcel.writeString(firstName)
-        parcel.writeString(secondName)
+        parcel.writeString(name)
+        parcel.writeString(surname)
+        parcel.writeString(profileImage)
         parcel.writeString(age)
         parcel.writeString(profession)
+        parcel.writeString(country)
         parcel.writeString(bio)
-        parcel.writeString(placeName)
-        parcel.writeString(profileImage)
     }
 
     override fun describeContents(): Int {

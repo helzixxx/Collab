@@ -11,6 +11,7 @@ import android.widget.TextView
 import android.widget.Toast
 import com.example.collab.MainActivity
 import com.example.collab.R
+import com.example.collab.config.ConfigData
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DatabaseReference
@@ -48,7 +49,6 @@ class SignUpActivity : AppCompatActivity() {
 
         signupButton.setOnClickListener {
             signUp()
-
         }
 
         redirectLogin.setOnClickListener {
@@ -86,6 +86,7 @@ class SignUpActivity : AppCompatActivity() {
                 databaseReference.updateChildren(newUser as Map<String, Any>)
 
                 val intent = Intent(this, MainActivity::class.java)
+
                 startActivity(intent)
                 finish()
             } else {
