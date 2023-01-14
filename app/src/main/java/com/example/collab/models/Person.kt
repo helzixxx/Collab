@@ -2,6 +2,7 @@ package com.example.collab.models
 
 import android.os.Parcel
 import android.os.Parcelable
+import com.google.firebase.database.Exclude
 import java.io.Serializable
 import java.util.ArrayList
 
@@ -14,6 +15,19 @@ data class Person constructor(
     var profession: String? = "",
     var country: String? = "",
     var bio: String? = ""): Serializable, Parcelable {
+
+//    @Exclude
+//    fun toMap(): Map<String, Any?> {
+//        return mapOf(
+//            "id" to id,
+//            "name" to name,
+//            "surname" to surname,
+//            "profileImage" to profileImage,
+//            "age" to age,
+//            "country" to country,
+//            "bio" to bio
+//        )
+//    }
 
     constructor(parcel: Parcel) : this(
         parcel.readString()!!,

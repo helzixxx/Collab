@@ -27,287 +27,351 @@
         android:layout_height="match_parent"
         android:fillViewport="true">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="70dp"
-        android:orientation="vertical">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="170dp">
-
-            <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/personPhotoCircle"
-                android:layout_width="170dp"
-                android:layout_height="match_parent"
-                android:layout_centerHorizontal="true"
-                android:scaleType="centerCrop"
-                app:shapeAppearanceOverlay="@style/circleImageView"
-                app:srcCompat="@drawable/defaut_profile_image" />
-
-
-            <ImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_alignEnd="@+id/personPhotoCircle"
-                android:layout_alignParentBottom="true"
-                android:layout_marginEnd="2dp"
-                android:layout_marginBottom="1dp"
-                android:foregroundGravity="bottom"
-                app:srcCompat="@drawable/ic_edit_photo" />
-        </RelativeLayout>
-
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingTop="70dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="170dp">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/personPhotoCircle"
+                    android:layout_width="170dp"
+                    android:layout_height="match_parent"
+                    android:layout_centerHorizontal="true"
+                    android:scaleType="centerCrop"
+                    app:shapeAppearanceOverlay="@style/circleImageView"
+                    app:srcCompat="@drawable/defaut_profile_image" />
+
+
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_alignEnd="@+id/personPhotoCircle"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginEnd="2dp"
+                    android:layout_marginBottom="1dp"
+                    android:foregroundGravity="bottom"
+                    app:srcCompat="@drawable/ic_edit_photo" />
+            </RelativeLayout>
+
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:background="@color/gray1"
-                android:orientation="vertical"
-                android:paddingVertical="10dp"
-                android:paddingStart="20dp">
+                android:layout_marginTop="16dp"
+                android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="5dp"
-                    android:text="Imię"
-                    android:textColor="@color/black"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-
-                <com.google.android.material.textfield.TextInputLayout
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_marginEnd="20dp"
-                    android:layout_weight="1">
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:background="@color/gray1"
+                    android:orientation="vertical"
+                    android:paddingVertical="10dp"
+                    android:paddingStart="20dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="5dp"
+                        android:text="Imię"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_marginEnd="20dp"
+                        android:layout_weight="1">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/nameEditText"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="@color/white"
-                        android:hint="Andrzej" />
+                        android:background="@color/white" />
 
-                </com.google.android.material.textfield.TextInputLayout>
+                    </com.google.android.material.textfield.TextInputLayout>
 
-            </LinearLayout>
+                </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:background="@color/gray1"
-                android:orientation="vertical"
-                android:paddingVertical="10dp"
-                android:paddingStart="20dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="5dp"
-                    android:text="Nazwisko"
-                    android:textColor="@color/black"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-
-                <com.google.android.material.textfield.TextInputLayout
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_marginEnd="20dp"
-                    android:layout_weight="1">
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:background="@color/gray1"
+                    android:orientation="vertical"
+                    android:paddingVertical="10dp"
+                    android:paddingStart="20dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="5dp"
+                        android:text="Nazwisko"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_marginEnd="20dp"
+                        android:layout_weight="1">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/surnameEditText"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="@color/white"
-                        android:hint="Chciuk" />
+                        android:hint="Np. Zinkevich" />
 
-                </com.google.android.material.textfield.TextInputLayout>
+                    </com.google.android.material.textfield.TextInputLayout>
 
-            </LinearLayout>
+                </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:background="@color/gray1"
-                android:orientation="vertical"
-                android:paddingVertical="10dp"
-                android:paddingStart="20dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="5dp"
-                    android:text="Ilosc lat"
-                    android:textColor="@color/black"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-
-                <com.google.android.material.textfield.TextInputLayout
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_marginEnd="20dp"
-                    android:layout_weight="1">
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:background="@color/gray1"
+                    android:orientation="vertical"
+                    android:paddingVertical="10dp"
+                    android:paddingStart="20dp">
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/ageEditText"
-                        android:layout_width="match_parent"
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="5dp"
+                        android:text="Data urodzenia"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:id="@+id/spinnerContainerDateOfBirth"
+                        android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:background="@color/white"
-                        android:hint="28"
-                        android:inputType="number" />
+                        android:background="@drawable/ic_spinner_frame"
+                        android:orientation="horizontal">
 
-                </com.google.android.material.textfield.TextInputLayout>
+                        <TextView
+                            android:id="@+id/dateOfBirthTextView"
+                            android:layout_width="305dp"
+                            android:layout_height="56dp"
+                            android:layout_weight="1"
+                            android:gravity="center_vertical"
+                            android:padding="10dp"
+                            android:text="Wybierz datę" />
 
-            </LinearLayout>
+                        <ImageView
+                            android:layout_width="44dp"
+                            android:layout_height="56dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_baseline_calendar_month_24"
+                            app:tint="@color/blue3" />
+                    </LinearLayout>
+                </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:background="@color/gray1"
-                android:orientation="vertical"
-                android:paddingVertical="10dp"
-                android:paddingStart="20dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="5dp"
-                    android:text="Zawód"
-                    android:textColor="@color/black"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-
-                <com.google.android.material.textfield.TextInputLayout
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_marginEnd="20dp"
-                    android:layout_weight="1">
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:background="@color/gray1"
+                    android:orientation="vertical"
+                    android:paddingVertical="10dp"
+                    android:paddingStart="20dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="5dp"
+                        android:text="Zawód"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_marginEnd="20dp"
+                        android:layout_weight="1">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/professionEditText"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="@color/white"
-                        android:hint="Muzyk" />
+                        android:hint="Np. Pisarz" />
 
-                </com.google.android.material.textfield.TextInputLayout>
+                    </com.google.android.material.textfield.TextInputLayout>
 
-            </LinearLayout>
+                </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:background="@color/gray1"
-                android:orientation="vertical"
-                android:paddingVertical="10dp"
-                android:paddingStart="20dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="5dp"
-                    android:text="Instrumenty muzyczne"
-                    android:textColor="@color/black"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-
-                <TextView
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Gitara, Piano" />
+                    android:layout_margin="10dp"
+                    android:background="@color/gray1"
+                    android:orientation="vertical"
+                    android:paddingVertical="10dp"
+                    android:paddingStart="20dp">
 
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="5dp"
+                        android:text="Instrumenty muzyczne"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
 
-            </LinearLayout>
+                    <LinearLayout
+                        android:id="@+id/spinnerContainerInstrument"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/ic_spinner_frame"
+                        android:orientation="horizontal">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:background="@color/gray1"
-                android:orientation="vertical"
-                android:paddingVertical="10dp"
-                android:paddingStart="20dp">
+                        <TextView
+                            android:layout_width="305dp"
+                            android:layout_height="56dp"
+                            android:layout_weight="1"
+                            android:gravity="center_vertical"
+                            android:padding="10dp"
+                            android:text="Wybierz instrumenty muzyczne" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="5dp"
-                    android:text="Miejscowosc"
-                    android:textColor="@color/black"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
+                        <ImageView
+                            android:layout_width="44dp"
+                            android:layout_height="56dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_baseline_keyboard_arrow_down_24"
+                            app:tint="@color/blue3" />
+                    </LinearLayout>
+                </LinearLayout>
 
-                <com.google.android.material.textfield.TextInputLayout
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_marginEnd="20dp"
-                    android:layout_weight="1">
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:background="@color/gray1"
+                    android:orientation="vertical"
+                    android:paddingVertical="10dp"
+                    android:paddingStart="20dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="5dp"
+                        android:text="Gatunki"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:id="@+id/spinnerContainerGenre"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/ic_spinner_frame"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="305dp"
+                            android:layout_height="56dp"
+                            android:layout_weight="1"
+                            android:gravity="center_vertical"
+                            android:padding="10dp"
+                            android:text="Wybierz gatunki" />
+
+                        <ImageView
+                            android:layout_width="44dp"
+                            android:layout_height="56dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_baseline_keyboard_arrow_down_24"
+                            app:tint="@color/blue3" />
+                    </LinearLayout>
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:background="@color/gray1"
+                    android:orientation="vertical"
+                    android:paddingVertical="10dp"
+                    android:paddingStart="20dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="5dp"
+                        android:text="Miejscowosc"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_marginEnd="20dp"
+                        android:layout_weight="1">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/townshipEditText"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="@color/white"
-                        android:hint="Warszawa" />
+                        android:hint="Np. Warszawa" />
 
-                </com.google.android.material.textfield.TextInputLayout>
+                    </com.google.android.material.textfield.TextInputLayout>
 
-            </LinearLayout>
+                </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:background="@color/gray1"
-                android:orientation="vertical"
-                android:paddingVertical="10dp"
-                android:paddingStart="20dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="5dp"
-                    android:text="Opis"
-                    android:textColor="@color/black"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-
-                <com.google.android.material.textfield.TextInputLayout
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_marginEnd="20dp"
-                    android:layout_weight="1">
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:background="@color/gray1"
+                    android:orientation="vertical"
+                    android:paddingVertical="10dp"
+                    android:paddingStart="20dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="5dp"
+                        android:text="Opis"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_marginEnd="20dp"
+                        android:layout_weight="1">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/bioEditText"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="@color/white"
-                        android:hint="Blablabla" />
+                        android:hint="Np. Poszukuję osobę.." />
                 </com.google.android.material.textfield.TextInputLayout>
 
+                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
-</ScrollView>
+    </ScrollView>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

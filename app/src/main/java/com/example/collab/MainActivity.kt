@@ -19,25 +19,21 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        var userId = intent.getStringExtra("UserId")
-        //var intentCheck = intent.getStringExtra("Check")
+        //val userId = intent.getStringExtra("UserId")
+        var intentCheck = intent.getStringExtra("Check")
 
         cardsFragment = CardsFragment.newInstance()
-        userProfileFragment = UserProfileFragment.newInstance(userId)
+        userProfileFragment = UserProfileFragment.newInstance()
         chatListFragment = ChatListFragment.newInstance()
 
-//        if (intentCheck == "1") {
-//            intentCheck = ""
-//            supportFragmentManager.beginTransaction()
-//                .add(R.id.container, userProfileFragment, "userProfileFragment").commit()
-//        } else {
-//            supportFragmentManager.beginTransaction()
-//                .add(R.id.container, cardsFragment, "profileCardFragment").commit()
-//        }
-
-        supportFragmentManager.beginTransaction()
-            .add(R.id.container, cardsFragment, "profileCardFragment").commit()
-
+        if (intentCheck == "1") {
+            intentCheck = ""
+            supportFragmentManager.beginTransaction()
+                .add(R.id.container, userProfileFragment, "userProfileFragment").commit()
+        } else {
+            supportFragmentManager.beginTransaction()
+                .add(R.id.container, cardsFragment, "profileCardFragment").commit()
+        }
 
         bottomNav = findViewById(R.id.bottomNavigationView)
         bottomNav.setOnNavigationItemSelectedListener {

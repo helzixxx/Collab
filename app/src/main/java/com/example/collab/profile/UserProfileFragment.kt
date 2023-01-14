@@ -11,7 +11,9 @@ import androidx.fragment.app.Fragment
 import com.example.collab.MainActivity
 import com.example.collab.R
 import com.example.collab.SettingsActivity
+import com.example.collab.cards.CardsFragment
 import com.example.collab.models.Person
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.gson.Gson
@@ -48,14 +50,19 @@ class UserProfileFragment : Fragment() {
         val editProfile = view.findViewById<ImageView>(R.id.edit_profile)
         editProfile.setOnClickListener {
             val intent = Intent(requireActivity() as MainActivity, EditProfileActivity::class.java)
-            intent.putExtra("UserId", currentUserId)
             startActivity(intent)
         }
 
-        val databaseReference: DatabaseReference =
-            FirebaseDatabase.getInstance().reference.child("Users").child(currentUserId)
+        val auth = FirebaseAuth.getInstance()
 
-        databaseReference.get().addOnSuccessListener {
+        val databaseReference: DatabaseReference =
+            FirebaseDatabase.getInstance().reference.child("Users")
+
+        currentUserId = auth.currentUser!!.uid
+
+        //todo нажатие бэк стрелки когда выходишь из настроек или эдит профайла триггерит нул эксепшн
+        // потому что в интент нет значения
+        databaseReference.child(currentUserId).get().addOnSuccessListener {
             val currentUser : Person? = it.getValue(Person::class.java)
             val name = view.findViewById<TextView>(R.id.name)
             name.text = currentUser!!.name
@@ -66,18 +73,10 @@ class UserProfileFragment : Fragment() {
         return view
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            currentUserId = it.getString(ARG_PARAM1).toString()
-        }
-    }
 
     companion object {
-        fun newInstance(userId: String?) = UserProfileFragment().apply {
-            arguments = Bundle().apply {
-                putString(ARG_PARAM1, userId)
+            fun newInstance(): UserProfileFragment {
+                return UserProfileFragment()
             }
-        }
     }
 }

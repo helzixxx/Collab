@@ -19,4 +19,20 @@
         <item name="android:windowFullscreen">false</item>
         <item name="android:windowIsFloating">false</item>
     </style>
+
+    <style name="DialogThemeNew" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorAccent">@color/blue3</item>
+        <item name="android:colorPrimary">@color/blue3</item>
+        <item name="android:colorPrimaryDark">@color/blue3</item>
+        <item name="android:colorAccent">@color/blue3</item>
+        <item name="android:buttonBarNegativeButtonStyle">@style/DatePickerTheme.ButtonBarNegativeButtonStyle</item>
+        <item name="android:buttonBarPositiveButtonStyle">@style/DatePickerTheme.ButtonBarNegativeButtonStyle</item>
+    </style>
+
+
+    <style name="DatePickerTheme.ButtonBarNegativeButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textColor">@color/blue3</item>
+    </style>
+
+
 </resources>
