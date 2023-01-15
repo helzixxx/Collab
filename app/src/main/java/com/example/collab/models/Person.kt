@@ -11,9 +11,9 @@ data class Person constructor(
     var name: String? = "",
     var surname: String? = "",
     var profileImage: String? = "",
-    var age: String? = "",
+    var dateOfBirth: String? = "",
     var profession: String? = "",
-    var country: String? = "",
+    var township: String? = "",
     var bio: String? = ""): Serializable, Parcelable {
 
 //    @Exclude
@@ -46,9 +46,9 @@ data class Person constructor(
         parcel.writeString(name)
         parcel.writeString(surname)
         parcel.writeString(profileImage)
-        parcel.writeString(age)
+        parcel.writeString(dateOfBirth)
         parcel.writeString(profession)
-        parcel.writeString(country)
+        parcel.writeString(township)
         parcel.writeString(bio)
     }
 
