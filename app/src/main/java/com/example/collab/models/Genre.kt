@@ -4,14 +4,18 @@ import android.os.Parcel
 import android.os.Parcelable
 import java.io.Serializable
 
-data class Instrument constructor(
+data class Genre constructor(
     var id: String? = "",
     var name: String? = ""
 ) : Serializable, Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString()!!,
-        parcel.readString()!!,
+        parcel.readString()!!
     ) {
+    }
+
+    override fun describeContents(): Int {
+        return 0
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -19,16 +23,12 @@ data class Instrument constructor(
         parcel.writeString(name)
     }
 
-    override fun describeContents(): Int {
-        return 0
-    }
-
-    companion object CREATOR : Parcelable.Creator<Instrument> {
-        override fun createFromParcel(parcel: Parcel): Instrument {
-            return Instrument(parcel)
+    companion object CREATOR : Parcelable.Creator<Genre> {
+        override fun createFromParcel(parcel: Parcel): Genre {
+            return Genre(parcel)
         }
 
-        override fun newArray(size: Int): Array<Instrument?> {
+        override fun newArray(size: Int): Array<Genre?> {
             return arrayOfNulls(size)
         }
     }

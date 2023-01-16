@@ -1,5 +1,6 @@
 package com.example.collab.profile
 
+import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.content.Context
 import android.content.Intent
@@ -7,6 +8,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
+import android.view.View
 import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -16,6 +18,9 @@ import androidx.appcompat.widget.Toolbar
 import com.bumptech.glide.Glide
 import com.example.collab.MainActivity
 import com.example.collab.R
+import com.example.collab.SelectGenresDialog
+import com.example.collab.models.Genre
+import com.example.collab.models.Instrument
 import com.example.collab.models.Person
 import com.google.android.material.imageview.ShapeableImageView
 import com.google.firebase.auth.FirebaseAuth
@@ -24,6 +29,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import java.util.*
+
 
 class EditProfileActivity : AppCompatActivity() {
 
@@ -41,9 +47,10 @@ class EditProfileActivity : AppCompatActivity() {
     private lateinit var profilePicture: ShapeableImageView
 
     var date: String = ""
-    lateinit var currentUserId : String
+    private lateinit var currentUserId : String
     private lateinit var imageUri : Uri
     private val pickImage = 100
+    //private lateinit var genres : ArrayList<Genre?>
 
     private lateinit var databaseReference: DatabaseReference
     private lateinit var storageReference: StorageReference
@@ -55,7 +62,7 @@ class EditProfileActivity : AppCompatActivity() {
 
         val auth = FirebaseAuth.getInstance()
 
-        databaseReference = FirebaseDatabase.getInstance().reference.child("Users")
+        databaseReference = FirebaseDatabase.getInstance().reference
 
         currentUserId = auth.currentUser!!.uid
 
@@ -100,7 +107,11 @@ class EditProfileActivity : AppCompatActivity() {
             showDatePicker()
         }
 
-        databaseReference.child(currentUserId).get().addOnSuccessListener {
+        genresLayout.setOnClickListener {
+            showSelectGenresDialog()
+        }
+
+        databaseReference.child("Users").child(currentUserId).get().addOnSuccessListener {
             val currentUser : Person? = it.getValue(Person::class.java)
             nameEditText.setText(currentUser!!.name)
             surnameEditText.setText(currentUser.surname)
@@ -116,6 +127,17 @@ class EditProfileActivity : AppCompatActivity() {
         }.addOnFailureListener{
             Log.e("firebase", "Error getting data", it)
         }
+
+//        databaseReference.child("Genres").get().addOnSuccessListener {
+//
+//            for (productSnapshot in it.children) {
+//                val genre: Genre? = productSnapshot.getValue(Genre::class.java)
+//                genres.add(genre)
+//            }
+//            Log.e("firebase", "Successfully got data $genres")
+//        }.addOnFailureListener{
+//            Log.e("firebase", "Error getting data", it)
+//        }
 
     }
 
@@ -160,7 +182,7 @@ class EditProfileActivity : AppCompatActivity() {
         newUser["township"] = township
         newUser["bio"] = bio
 
-        databaseReference.child(currentUserId).updateChildren(newUser as Map<String, Any>).addOnSuccessListener {
+        databaseReference.child("Users").child(currentUserId).updateChildren(newUser as Map<String, Any>).addOnSuccessListener {
             Toast.makeText(context, "user data uploaded successfully", Toast.LENGTH_SHORT).show()
             uploadProfilePicture()
         }.addOnFailureListener {
@@ -193,6 +215,42 @@ class EditProfileActivity : AppCompatActivity() {
         }.addOnFailureListener {
             Toast.makeText(context, "Pic download failed ", Toast.LENGTH_SHORT).show()
         }
+    }
+
+//    fun showGenreListDialog(view: View) {
+//
+//        val items = arrayOf("Microsoft", "Apple", "Amazon", "Google")
+//        val selectedList = ArrayList<Int>()
+//        val builder = AlertDialog.Builder(this)
+//
+//        builder.setTitle("This is list choice dialog box")
+//        builder.setMultiChoiceItems(items, null
+//        ) { dialog, which, isChecked ->
+//            if (isChecked) {
+//                selectedList.add(which)
+//            } else if (selectedList.contains(which)) {
+//                selectedList.remove(Integer.valueOf(which))
+//            }
+//        }
+//
+//        builder.setPositiveButton("DONE") { dialogInterface, i ->
+//            val selectedStrings = ArrayList<String>()
+//
+//            for (j in selectedList.indices) {
+//                selectedStrings.add(items[selectedList[j]])
+//            }
+//
+//            Toast.makeText(applicationContext, "Items selected are: " + Arrays.toString(selectedStrings.toTypedArray()), Toast.LENGTH_SHORT).show()
+//        }
+//
+//        builder.show()
+//
+//    }
+
+    private fun showSelectGenresDialog() {
+        val fragmentManager = supportFragmentManager
+        val selectGenresDialog = SelectGenresDialog()
+        selectGenresDialog.show(fragmentManager, "selectGenresDialogFragment")
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
