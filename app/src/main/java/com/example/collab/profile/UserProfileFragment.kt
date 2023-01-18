@@ -65,6 +65,7 @@ class UserProfileFragment : Fragment() {
             }
         }
 
+
         name = view.findViewById(R.id.name)
         surname = view.findViewById(R.id.surnameTextView)
         dateOfBirth = view.findViewById(R.id.dateOfBirthTextView)
@@ -87,6 +88,8 @@ class UserProfileFragment : Fragment() {
 
         currentUserId = auth.currentUser!!.uid
 
+        // todo потянуть вниз для обновления информации о юзере
+        // сделать функцию getUserInfo и запихнуть туда
         databaseReference.child(currentUserId).get().addOnSuccessListener {
             currentUser = it.getValue(Person::class.java)
             name.text = currentUser!!.name

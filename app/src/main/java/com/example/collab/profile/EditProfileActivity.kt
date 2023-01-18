@@ -48,9 +48,9 @@ class EditProfileActivity : AppCompatActivity() {
 
     var date: String = ""
     private lateinit var currentUserId : String
-    private lateinit var imageUri : Uri
+    private var imageUri : Uri? = null
     private val pickImage = 100
-    //private lateinit var genres : ArrayList<Genre?>
+    private lateinit var genreNames : ArrayList<String>
 
     private lateinit var databaseReference: DatabaseReference
     private lateinit var storageReference: StorageReference
@@ -76,6 +76,7 @@ class EditProfileActivity : AppCompatActivity() {
         bioEditText = findViewById(R.id.bioEditText)
         profilePicture = findViewById(R.id.personPhotoCircle)
         dateOfBirthTextView = findViewById(R.id.dateOfBirthTextView)
+
 
         val toolbar = findViewById<Toolbar>(R.id.topAppBar)
         toolbar.menu.findItem(R.id.save).isVisible = true
@@ -173,16 +174,12 @@ class EditProfileActivity : AppCompatActivity() {
         val township = townshipEditText.text.toString()
         val bio = bioEditText.text.toString()
 
-        //todo сделать это с помощью модели
-        val newUser: HashMap<String, String> = HashMap()
-        newUser["name"] = name
-        newUser["surname"] = surname
-        newUser["dateOfBirth"] = dateOfBirth
-        newUser["profession"] = profession
-        newUser["township"] = township
-        newUser["bio"] = bio
 
-        databaseReference.child("Users").child(currentUserId).updateChildren(newUser as Map<String, Any>).addOnSuccessListener {
+        //todo при создании профиля и сразу же при загрузке данных и выбора
+        // профильной фотографии происходит ошибка и фаербейз не загружет ее в хранилище
+
+        val newPerson = Person(name, surname, dateOfBirth, profession, township, bio)
+        databaseReference.child("Users").child(currentUserId).setValue(newPerson).addOnSuccessListener {
             Toast.makeText(context, "user data uploaded successfully", Toast.LENGTH_SHORT).show()
             uploadProfilePicture()
         }.addOnFailureListener {
@@ -194,7 +191,7 @@ class EditProfileActivity : AppCompatActivity() {
     private fun uploadProfilePicture() {
         if(imageUri != null) {
             storageReference = FirebaseStorage.getInstance().getReference("Users/$currentUserId")
-            storageReference.putFile(imageUri).addOnSuccessListener {
+            storageReference.putFile(imageUri!!).addOnSuccessListener {
                 Toast.makeText(context, "Pic uploaded successfully", Toast.LENGTH_SHORT).show()
             }.addOnFailureListener {
                 Toast.makeText(context, "Pic upload failed ", Toast.LENGTH_SHORT).show()

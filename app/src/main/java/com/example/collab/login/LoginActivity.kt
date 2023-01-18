@@ -34,10 +34,16 @@ class LoginActivity : AppCompatActivity() {
 
         auth = FirebaseAuth.getInstance()
 
+        val redirectSignUp: TextView = findViewById(R.id.redirectSignUp)
         val loginButton: TextView = findViewById(R.id.loginButton)
 
         loginButton.setOnClickListener {
             logIn()
+        }
+
+        redirectSignUp.setOnClickListener {
+            val intent = Intent(this, SignUpActivity::class.java)
+            startActivity(intent)
         }
     }
 

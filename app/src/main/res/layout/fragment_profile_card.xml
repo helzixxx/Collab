@@ -1,75 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/profileCardLayout"
-        android:layout_width="360dp"
-        android:layout_height="621dp"
-        app:cardCornerRadius="32dp"
-        android:layout_marginStart="60dp"
-        android:layout_marginTop="70dp"
-        android:layout_marginEnd="60dp"
-        android:layout_marginBottom="70dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
-            android:id="@+id/personPhotoCard"
+    <com.lorentzos.flingswipe.SwipeFlingAdapterView
+        android:id="@+id/cardFrame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@color/white"
+        app:rotation_degrees="15.5"
+        tools:context=".MyActivity" />
+
+
+    <FrameLayout
+        android:id="@+id/noMoreMatches"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scaleType="centerCrop"
-            android:src="@drawable/pexels_frank_cone_2258536" />
-
-        <TextView
-            android:id="@+id/user_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="30dp"
-            android:layout_alignParentTop="true"
-            android:layout_marginTop="30dp"
-            android:text="View, 26"
-            android:textColor="@color/white"
+            android:gravity="center"
+            android:text="W tej chwili nie ma dla Ciebie więcej meczów.  Spróbuj ponownie trochę później :)"
+            android:textColor="@color/black"
             android:textSize="32sp"
-            android:gravity="center_vertical"
-            />
+            android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/user_bio"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="30dp"
-            android:layout_marginTop="80dp"
-            android:gravity="center_vertical"
-            android:text="Producer"
-            android:textColor="@color/white"
-            android:textSize="16sp" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:layout_marginBottom="100dp"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="180dp"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_swipe_left" />
-
-            <ImageView
-                android:layout_width="180dp"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_swipe_right" />
-        </LinearLayout>
-
-    </androidx.cardview.widget.CardView>
+    </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

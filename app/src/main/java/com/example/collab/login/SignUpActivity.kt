@@ -81,7 +81,6 @@ class SignUpActivity : AppCompatActivity() {
 
                 var newUser: HashMap<String, String> = HashMap()
                 newUser["name"] = name
-                newUser["profileImage"] = "default"
 
                 databaseReference.updateChildren(newUser as Map<String, Any>)
 

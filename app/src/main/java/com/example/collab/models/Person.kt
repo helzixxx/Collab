@@ -7,27 +7,16 @@ import java.io.Serializable
 import java.util.ArrayList
 
 data class Person constructor(
-    var id: String? = "",
     var name: String? = "",
     var surname: String? = "",
-    var profileImage: String? = "",
     var dateOfBirth: String? = "",
     var profession: String? = "",
     var township: String? = "",
-    var bio: String? = ""): Serializable, Parcelable {
+    var bio: String? = ""
+    //var genres: ArrayList<String>? = null
+    ): Serializable, Parcelable {
 
-//    @Exclude
-//    fun toMap(): Map<String, Any?> {
-//        return mapOf(
-//            "id" to id,
-//            "name" to name,
-//            "surname" to surname,
-//            "profileImage" to profileImage,
-//            "age" to age,
-//            "country" to country,
-//            "bio" to bio
-//        )
-//    }
+
 
     constructor(parcel: Parcel) : this(
         parcel.readString()!!,
@@ -36,20 +25,18 @@ data class Person constructor(
         parcel.readString()!!,
         parcel.readString()!!,
         parcel.readString()!!,
-        parcel.readString()!!,
-        parcel.readString()!!
+        //parcel.createStringArrayList()!!
     ) {
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeString(id)
         parcel.writeString(name)
         parcel.writeString(surname)
-        parcel.writeString(profileImage)
         parcel.writeString(dateOfBirth)
         parcel.writeString(profession)
         parcel.writeString(township)
         parcel.writeString(bio)
+        //parcel.writeArray(arrayOf(genres))
     }
 
     override fun describeContents(): Int {

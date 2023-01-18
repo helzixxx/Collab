@@ -35,10 +35,11 @@ class GenreCheckBoxListAdapter constructor(
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
         val genre: Genre? = entries[position]
         holder.genreName.text = genre!!.name
+        genre.isChecked = false
 
         holder.container.setOnClickListener {
-            holder.checkBox.isChecked = true
-
+            genre.isChecked = !genre.isChecked
+            holder.checkBox.isChecked = genre.isChecked
         }
     }
 

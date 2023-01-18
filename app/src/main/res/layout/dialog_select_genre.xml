@@ -20,6 +20,21 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/searched_genres_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dip"
+        android:layout_weight="1"
+        android:gravity="center|bottom"
+        android:orientation="vertical" >
+    <Button
+        android:id="@+id/genreButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/blue3"
+        android:text="Zatwierdź"
+        android:textColor="@android:color/white" />
+    </LinearLayout>
 
 </LinearLayout>
