@@ -19,17 +19,31 @@
     <FrameLayout
         android:id="@+id/noMoreMatches"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone">
+        android:layout_height="match_parent">
 
-        <TextView
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:text="W tej chwili nie ma dla Ciebie więcej meczów.  Spróbuj ponownie trochę później :)"
-            android:textColor="@color/black"
-            android:textSize="32sp"
-            android:textStyle="bold" />
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="123dp"
+                android:gravity="center"
+                app:srcCompat="@drawable/ic_collab_logo" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:padding="30dp"
+                android:text="W tej chwili nie ma dla Ciebie więcej meczów.  Spróbuj ponownie trochę później :)"
+                android:textColor="@color/black"
+                android:textSize="32sp"
+                android:textStyle="bold" />
+        </LinearLayout>
 
     </FrameLayout>
 

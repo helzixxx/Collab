@@ -206,8 +206,6 @@ class EditProfileActivity : AppCompatActivity() {
             Glide.with(this@EditProfileActivity)
                 .load(it)
                 .into(profilePicture)
-//            imageUri = it
-//            profilePicture.setImageURI(imageUri)
             Toast.makeText(context, "Pic downloaded successfully", Toast.LENGTH_SHORT).show()
         }.addOnFailureListener {
             Toast.makeText(context, "Pic download failed ", Toast.LENGTH_SHORT).show()

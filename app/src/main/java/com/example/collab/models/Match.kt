@@ -5,16 +5,16 @@ import android.os.Parcel
 import android.os.Parcelable
 import java.io.Serializable
 
-data class Card constructor(
+class Match constructor(
     var userId: String? = null,
     var name: String? = "",
-    var profession: String? = "",
+    var lastMessage: String? = "",
     var profileImage: Uri?
 ) : Serializable, Parcelable {
     constructor(parcel: Parcel) : this(
-        parcel.readString()!!,
-        parcel.readString()!!,
-        parcel.readString()!!,
+        parcel.readString(),
+        parcel.readString(),
+        parcel.readString(),
         parcel.readParcelable(Uri::class.java.classLoader)
     ) {
     }
@@ -22,7 +22,7 @@ data class Card constructor(
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(userId)
         parcel.writeString(name)
-        parcel.writeString(profession)
+        parcel.writeString(lastMessage)
         parcel.writeParcelable(profileImage, flags)
     }
 
@@ -30,13 +30,14 @@ data class Card constructor(
         return 0
     }
 
-    companion object CREATOR : Parcelable.Creator<Card> {
-        override fun createFromParcel(parcel: Parcel): Card {
-            return Card(parcel)
+    companion object CREATOR : Parcelable.Creator<Match> {
+        override fun createFromParcel(parcel: Parcel): Match {
+            return Match(parcel)
         }
 
-        override fun newArray(size: Int): Array<Card?> {
+        override fun newArray(size: Int): Array<Match?> {
             return arrayOfNulls(size)
         }
     }
+
 }

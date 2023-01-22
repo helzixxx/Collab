@@ -10,7 +10,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.collab.MainActivity
 import com.example.collab.R
-import com.example.collab.config.ConfigData
 import com.google.firebase.auth.FirebaseAuth
 
 
@@ -21,7 +20,6 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var emailText: EditText
     private lateinit var passwordText: EditText
 
-    var sp: SharedPreferences? = null
     lateinit var auth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {

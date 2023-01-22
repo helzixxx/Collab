@@ -11,7 +11,6 @@ import android.widget.TextView
 import android.widget.Toast
 import com.example.collab.MainActivity
 import com.example.collab.R
-import com.example.collab.config.ConfigData
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DatabaseReference

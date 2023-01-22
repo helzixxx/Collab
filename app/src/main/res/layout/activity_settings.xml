@@ -36,18 +36,6 @@
         app:layout_constraintVertical_bias="0.313">
 
         <Button
-            android:id="@+id/personalData"
-            style="?attr/materialButtonOutlinedStyle"
-            android:layout_width="match_parent"
-            android:layout_height="70dp"
-            android:gravity="center_vertical"
-            android:paddingStart="15dp"
-            android:text="Dane osobowe"
-            android:textColor="@color/black"
-            android:textSize="20sp"
-            tools:ignore="HardcodedText,RtlSymmetry" />
-
-        <Button
             android:id="@+id/appInfo"
             style="?attr/materialButtonOutlinedStyle"
             android:layout_width="match_parent"
@@ -87,6 +75,21 @@
             tools:ignore="HardcodedText,RtlSymmetry" />
 
         <Button
+            android:id="@+id/deleteAccount"
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_marginTop="20dp"
+            android:gravity="center_vertical"
+            android:paddingStart="15dp"
+            android:text="usuń profil"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            tools:ignore="HardcodedText,RtlSymmetry" />
+
+
+
+        <Button
             android:id="@+id/problemReport"
             style="?attr/materialButtonOutlinedStyle"
             android:layout_width="match_parent"
@@ -97,6 +100,7 @@
             android:text="Zgłoś problem"
             android:textColor="@color/black"
             android:textSize="20sp"
+            android:visibility="gone"
             tools:ignore="HardcodedText,RtlSymmetry" />
 
 
