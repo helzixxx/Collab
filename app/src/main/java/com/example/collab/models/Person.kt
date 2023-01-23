@@ -1,5 +1,6 @@
 package com.example.collab.models
 
+import android.net.Uri
 import android.os.Parcel
 import android.os.Parcelable
 import com.google.firebase.database.Exclude
@@ -12,6 +13,7 @@ data class Person constructor(
     var dateOfBirth: String? = "",
     var profession: String? = "",
     var township: String? = "",
+    var profileImage: String? = "",
     var bio: String? = ""
     //var genres: ArrayList<String>? = null
     ): Serializable, Parcelable {
@@ -19,6 +21,7 @@ data class Person constructor(
 
 
     constructor(parcel: Parcel) : this(
+        parcel.readString()!!,
         parcel.readString()!!,
         parcel.readString()!!,
         parcel.readString()!!,
@@ -35,6 +38,7 @@ data class Person constructor(
         parcel.writeString(dateOfBirth)
         parcel.writeString(profession)
         parcel.writeString(township)
+        parcel.writeString(profileImage)
         parcel.writeString(bio)
         //parcel.writeArray(arrayOf(genres))
     }

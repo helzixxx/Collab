@@ -89,6 +89,7 @@ class UserProfileFragment : Fragment() {
         currentUserId = auth.currentUser!!.uid
 
         // todo потянуть вниз для обновления информации о юзере
+        // или addOnDataEventChange
         // сделать функцию getUserInfo и запихнуть туда
         databaseReference.child(currentUserId).get().addOnSuccessListener {
             currentUser = it.getValue(Person::class.java)
@@ -112,9 +113,9 @@ class UserProfileFragment : Fragment() {
             Glide.with(requireActivity())
                 .load(it)
                 .into(profilePicture)
-            Toast.makeText(context, "Pic downloaded successfully", Toast.LENGTH_SHORT).show()
+            Log.e("firebase", "Pic downloaded successfully $it")
         }.addOnFailureListener {
-            Toast.makeText(context, "Pic download failed ", Toast.LENGTH_SHORT).show()
+            Log.e("firebase", "Pic download failed", it)
         }
     }
 

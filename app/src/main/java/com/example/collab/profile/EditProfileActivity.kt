@@ -1,14 +1,13 @@
 package com.example.collab.profile
 
-import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
-import android.view.View
 import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -19,15 +18,17 @@ import com.bumptech.glide.Glide
 import com.example.collab.MainActivity
 import com.example.collab.R
 import com.example.collab.SelectGenresDialog
-import com.example.collab.models.Genre
-import com.example.collab.models.Instrument
 import com.example.collab.models.Person
 import com.google.android.material.imageview.ShapeableImageView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.core.RepoManager.clear
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
+import com.google.firebase.storage.UploadTask
+import java.io.ByteArrayOutputStream
+import java.io.IOException
 import java.util.*
 
 
@@ -47,10 +48,10 @@ class EditProfileActivity : AppCompatActivity() {
     private lateinit var profilePicture: ShapeableImageView
 
     var date: String = ""
-    private lateinit var currentUserId : String
-    private var imageUri : Uri? = null
+    private lateinit var currentUserId: String
+    private var imageUri: Uri? = null
     private val pickImage = 100
-    private lateinit var genreNames : ArrayList<String>
+    private lateinit var genreNames: ArrayList<String>
 
     private lateinit var databaseReference: DatabaseReference
     private lateinit var storageReference: StorageReference
@@ -83,7 +84,7 @@ class EditProfileActivity : AppCompatActivity() {
 
         toolbar.setNavigationOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
-            intent.putExtra("Check","1");
+            intent.putExtra("Check", "1");
             startActivity(intent)
         }
 
@@ -93,7 +94,9 @@ class EditProfileActivity : AppCompatActivity() {
                     savePersonProfileData()
                     true
                 }
-                else -> { false }
+                else -> {
+                    false
+                }
             }
         }
 
@@ -113,7 +116,7 @@ class EditProfileActivity : AppCompatActivity() {
         }
 
         databaseReference.child("Users").child(currentUserId).get().addOnSuccessListener {
-            val currentUser : Person? = it.getValue(Person::class.java)
+            val currentUser: Person? = it.getValue(Person::class.java)
             nameEditText.setText(currentUser!!.name)
             surnameEditText.setText(currentUser.surname)
             surnameEditText.hint = ""
@@ -124,8 +127,11 @@ class EditProfileActivity : AppCompatActivity() {
             townshipEditText.hint = ""
             bioEditText.setText(currentUser.bio)
             bioEditText.hint = ""
-            downloadProfileImage()
-        }.addOnFailureListener{
+            if (currentUser.profileImage != "" && currentUser.profileImage != null) {
+                Glide.with(context).load(currentUser.profileImage).into(profilePicture)
+            }
+
+        }.addOnFailureListener {
             Log.e("firebase", "Error getting data", it)
         }
 
@@ -178,29 +184,67 @@ class EditProfileActivity : AppCompatActivity() {
         //todo при создании профиля и сразу же при загрузке данных и выбора
         // профильной фотографии происходит ошибка и фаербейз не загружет ее в хранилище
 
-        val newPerson = Person(name, surname, dateOfBirth, profession, township, bio)
-        databaseReference.child("Users").child(currentUserId).setValue(newPerson).addOnSuccessListener {
-            Toast.makeText(context, "user data uploaded successfully", Toast.LENGTH_SHORT).show()
-            uploadProfilePicture()
-        }.addOnFailureListener {
+        val newPerson = Person(name, surname, dateOfBirth, profession, township, "", bio)
+        databaseReference.child("Users").child(currentUserId).setValue(newPerson)
+            .addOnSuccessListener {
+                Toast.makeText(context, "user data uploaded successfully", Toast.LENGTH_SHORT)
+                    .show()
+                if (imageUri != null) {
+                    uploadProfilePicture()
+                }
+            }.addOnFailureListener {
             Toast.makeText(context, "user data upload failed ", Toast.LENGTH_SHORT).show()
         }
         finish()
     }
 
     private fun uploadProfilePicture() {
-        if(imageUri != null) {
-            storageReference = FirebaseStorage.getInstance().getReference("Users/$currentUserId")
-            storageReference.putFile(imageUri!!).addOnSuccessListener {
-                Toast.makeText(context, "Pic uploaded successfully", Toast.LENGTH_SHORT).show()
-            }.addOnFailureListener {
-                Toast.makeText(context, "Pic upload failed ", Toast.LENGTH_SHORT).show()
-            }
+
+        storageReference = FirebaseStorage.getInstance().getReference("Users/$currentUserId")
+//            storageReference.putFile(imageUri!!).addOnSuccessListener {
+//                Toast.makeText(context, "Pic uploaded successfully", Toast.LENGTH_SHORT).show()
+//            }.addOnFailureListener {
+//                Toast.makeText(context, "Pic upload failed ", Toast.LENGTH_SHORT).show()
+//            }
+        var bitmap: Bitmap? = null
+
+        try {
+            bitmap = MediaStore.Images.Media.getBitmap(application.contentResolver, imageUri)
+        } catch (e: IOException) {
+            e.printStackTrace()
         }
+
+        val baos = ByteArrayOutputStream()
+        bitmap!!.compress(Bitmap.CompressFormat.JPEG, 20, baos)
+        val data: ByteArray = baos.toByteArray()
+        val uploadTask: UploadTask = storageReference.putBytes(data)
+        uploadTask.addOnCompleteListener {
+            if (it.isSuccessful) {
+                it.result.storage.downloadUrl.addOnSuccessListener {
+                    databaseReference.child("Users").child(currentUserId).child("profileImage")
+                        .setValue(it.toString()).addOnSuccessListener {
+                            Log.e("", "Pic uploaded successfully to database")
+
+                        }.addOnFailureListener {
+                            Log.e("", "Pic upload failed to database : $it")
+                        }
+                }.addOnFailureListener {
+                    Log.e("", "Pic downloadUrl failed : $it")
+                }
+
+                finish()
+                Log.e("", "Pic uploaded successfully to storage")
+            }
+
+
+        }.addOnFailureListener {
+            Log.e("", "Pic uploaded failed to storage")
+        }
+
 
     }
 
-    private fun downloadProfileImage(){
+    private fun downloadProfileImage() {
         storageReference = FirebaseStorage.getInstance().getReference("Users/$currentUserId")
         storageReference.downloadUrl.addOnSuccessListener {
             Glide.with(this@EditProfileActivity)

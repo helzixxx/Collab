@@ -63,7 +63,6 @@ class CardsFragment : Fragment() {
 
         cardsAdapter = CardsAdapter(requireContext(), R.layout.card_item,  usersCards)
         cardFrame.adapter = cardsAdapter
-        checkRowItem()
 
         cardFrame.setFlingListener(object: SwipeFlingAdapterView.onFlingListener {
             override fun removeFirstObjectInAdapter() {
@@ -121,12 +120,10 @@ class CardsFragment : Fragment() {
                         dataSnapshot.key!!,
                         dataSnapshot.child("name").value.toString(),
                         dataSnapshot.child("profession").value.toString(),
-                        null
+                        dataSnapshot.child("profileImage").value.toString()
                     )
                     usersCards.add(card)
                     cardsAdapter!!.notifyDataSetChanged()
-
-
                     Log.e("firebase", "Successfully got data $usersCards")
                 }
             }

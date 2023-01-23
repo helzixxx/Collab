@@ -9,13 +9,13 @@ data class Card constructor(
     var userId: String? = null,
     var name: String? = "",
     var profession: String? = "",
-    var profileImage: Uri?
+    var profileImage: String? = ""
 ) : Serializable, Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString()!!,
         parcel.readString()!!,
         parcel.readString()!!,
-        parcel.readParcelable(Uri::class.java.classLoader)
+        parcel.readString()!!
     ) {
     }
 
@@ -23,7 +23,7 @@ data class Card constructor(
         parcel.writeString(userId)
         parcel.writeString(name)
         parcel.writeString(profession)
-        parcel.writeParcelable(profileImage, flags)
+        parcel.writeString(profileImage)
     }
 
     override fun describeContents(): Int {

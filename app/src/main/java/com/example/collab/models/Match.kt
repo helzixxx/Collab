@@ -9,13 +9,13 @@ class Match constructor(
     var userId: String? = null,
     var name: String? = "",
     var lastMessage: String? = "",
-    var profileImage: Uri?
-) : Serializable, Parcelable {
+    var profileImage: String? = "",
+) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString(),
         parcel.readString(),
         parcel.readString(),
-        parcel.readParcelable(Uri::class.java.classLoader)
+        parcel.readString()
     ) {
     }
 
@@ -23,7 +23,7 @@ class Match constructor(
         parcel.writeString(userId)
         parcel.writeString(name)
         parcel.writeString(lastMessage)
-        parcel.writeParcelable(profileImage, flags)
+        parcel.writeString(profileImage)
     }
 
     override fun describeContents(): Int {

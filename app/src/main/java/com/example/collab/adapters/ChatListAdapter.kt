@@ -1,6 +1,7 @@
 package com.example.collab.adapters
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,9 +9,12 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.cardview.widget.CardView
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.collab.MainActivity
 import com.example.collab.R
+import com.example.collab.chat.ChatActivity
 import com.example.collab.models.Match
 import com.google.android.material.imageview.ShapeableImageView
 
@@ -43,10 +47,16 @@ class ChatListAdapter constructor(context : Context, entries: ArrayList<Match>) 
 
         holder.userName.text = match.name
         holder.lastMessage.text = match.lastMessage
-        if (match.profileImage == null) {
-            Glide.with(context!!).load(R.drawable.pexels_frank_cone_2258536).into(holder.personPhotoCircle)
+        if (match.profileImage != null && match.profileImage != "") {
+            Glide.with(context!!).load(match.profileImage).dontTransform().into(holder.personPhotoCircle)
         } else {
-            Glide.with(context!!).load(match.profileImage).into(holder.personPhotoCircle)
+            Glide.with(context!!).load(R.drawable.defaut_profile_image).into(holder.personPhotoCircle)
+        }
+
+        holder.container.setOnClickListener {
+            val intent = Intent(context, ChatActivity::class.java)
+            intent.putExtra("user", match)
+            context?.startActivity(intent)
         }
     }
 

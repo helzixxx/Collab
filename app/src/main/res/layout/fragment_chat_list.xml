@@ -9,6 +9,15 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="35dp"
+            android:layout_marginStart="10dp"
+            android:textColor="@color/black"
+            android:textSize="25sp"
+            android:text="Twoje dopasowania"/>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/chatListRV"
             android:layout_width="match_parent"

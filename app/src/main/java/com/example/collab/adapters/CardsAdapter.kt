@@ -40,10 +40,10 @@ class CardsAdapter constructor(
         user_name.text = card!!.name
         user_bio.text = card.profession
 
-        if (card.profileImage == null) {
-            Glide.with(context).load(R.drawable.pexels_frank_cone_2258536).into(personPhotoCard)
-        } else {
+        if (card.profileImage != null && card.profileImage != "") {
             Glide.with(context).load(card.profileImage).into(personPhotoCard)
+        } else {
+            Glide.with(context).load(R.drawable.defaut_profile_image).into(personPhotoCard)
         }
 
 
