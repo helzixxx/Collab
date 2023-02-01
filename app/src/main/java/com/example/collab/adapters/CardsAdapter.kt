@@ -1,6 +1,7 @@
 package com.example.collab.adapters
 
 import android.content.Context
+import android.content.Intent
 import android.net.Uri
 import android.util.Log
 import android.view.LayoutInflater
@@ -9,9 +10,12 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.cardview.widget.CardView
 import com.bumptech.glide.Glide
 import com.example.collab.R
+import com.example.collab.chat.ChatActivity
 import com.example.collab.models.Card
+import com.example.collab.profile.ProfileActivity
 import com.google.firebase.storage.FirebaseStorage
 
 class CardsAdapter constructor(
@@ -44,6 +48,13 @@ class CardsAdapter constructor(
             Glide.with(context).load(card.profileImage).into(personPhotoCard)
         } else {
             Glide.with(context).load(R.drawable.defaut_profile_image).into(personPhotoCard)
+        }
+
+        val profileCardLayout = view!!.findViewById<CardView>(R.id.profileCardLayout)
+        profileCardLayout.setOnClickListener {
+            val intent = Intent(context, ProfileActivity::class.java)
+            intent.putExtra("cardUserId", card.userId)
+            context.startActivity(intent)
         }
 
 
