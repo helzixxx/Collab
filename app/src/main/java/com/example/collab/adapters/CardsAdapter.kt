@@ -50,12 +50,13 @@ class CardsAdapter constructor(
             Glide.with(context).load(R.drawable.defaut_profile_image).into(personPhotoCard)
         }
 
-        val profileCardLayout = view!!.findViewById<CardView>(R.id.profileCardLayout)
-        profileCardLayout.setOnClickListener {
-            val intent = Intent(context, ProfileActivity::class.java)
-            intent.putExtra("cardUserId", card.userId)
-            context.startActivity(intent)
-        }
+//        val profileCardLayout = view!!.findViewById<CardView>(R.id.profileCardLayout)
+//        profileCardLayout.setOnLongClickListener {
+//            val intent = Intent(context, ProfileActivity::class.java)
+//            intent.putExtra("cardUserId", card.userId)
+//            context.startActivity(intent)
+//            true
+//        }
 
 
         return view

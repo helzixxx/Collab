@@ -1,17 +1,23 @@
 package com.example.collab.cards
 
 
+import android.app.Dialog
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.*
 import android.widget.FrameLayout
+import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import com.example.collab.MainActivity
 import com.example.collab.R
+import com.example.collab.SettingsActivity
 import com.example.collab.adapters.CardsAdapter
 import com.example.collab.models.Card
+import com.example.collab.profile.ProfileActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
@@ -52,6 +58,16 @@ class CardsFragment : Fragment() {
         toolbar.menu.findItem(R.id.filter).isVisible = true
         toolbar.menu.findItem(R.id.search).isVisible = false
         toolbar.menu.findItem(R.id.settings).isVisible = false
+
+        toolbar.setOnMenuItemClickListener { item ->
+            when (item.itemId) {
+                R.id.filter -> {
+                    showFilterDialog()
+                    true
+                }
+                else -> { false }
+            }
+        }
         //endregion
 
         cardFrame = rootView.findViewById(R.id.cardFrame)
@@ -93,12 +109,50 @@ class CardsFragment : Fragment() {
         })
 
         cardFrame.setOnItemClickListener { itemPosition, dataObject ->
-            //todo user info
-            Toast.makeText(requireActivity(), "Item Clicked", Toast.LENGTH_SHORT).show()
+            val card: Card? = dataObject as Card?
+            val intent = Intent(context, ProfileActivity::class.java)
+            intent.putExtra("cardUserId", card!!.userId)
+            startActivity(intent)
         }
 
 
         return rootView
+    }
+
+    private fun showFilterDialog() {
+        val dialog = Dialog(requireContext())
+        dialog.setContentView(R.layout.dialog_filter_user_cards)
+
+        val lWindowParams = WindowManager.LayoutParams()
+        lWindowParams.copyFrom(dialog.window!!.attributes)
+        lWindowParams.width = WindowManager.LayoutParams.MATCH_PARENT
+        lWindowParams.height = WindowManager.LayoutParams.WRAP_CONTENT
+        dialog.window!!.attributes = lWindowParams
+
+        val spinnerGenre = dialog.findViewById<LinearLayout>(R.id.spinnerGenre)
+        val spinnerInstrument = dialog.findViewById<LinearLayout>(R.id.spinnerInstrument)
+        val imageViewDone = dialog.findViewById<ImageView>(R.id.imageViewDone)
+        val imageViewClose = dialog.findViewById<ImageView>(R.id.imageViewClose)
+
+
+        spinnerGenre.setOnClickListener {
+
+        }
+
+        spinnerInstrument.setOnClickListener {
+
+        }
+
+        imageViewDone.setOnClickListener {
+
+        }
+
+        imageViewClose.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.setCancelable(false)
+        dialog.show()
     }
 
     private fun checkRowItem() {
