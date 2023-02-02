@@ -34,6 +34,14 @@ class ChatListAdapter constructor(context : Context, entries: ArrayList<Match>) 
         notifyDataSetChanged()
     }
 
+    fun updateListSearch(searchString: CharSequence?){
+        updateList(entries.filter { it.name!!.contains(searchString!!,true) } as ArrayList<Match> )
+    }
+
+    fun updateListEntries(){
+        updateList(entries)
+    }
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)

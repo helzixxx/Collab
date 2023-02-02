@@ -1,15 +1,18 @@
 package com.example.collab.chat
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.collab.MainActivity
 import com.example.collab.R
+import com.example.collab.SettingsActivity
 import com.example.collab.adapters.ChatListAdapter
 import com.example.collab.models.Match
 import com.google.firebase.auth.FirebaseAuth
@@ -24,7 +27,7 @@ class ChatListFragment : Fragment() {
     private lateinit var storageReference: StorageReference
     lateinit var currentUserId: String
     private var matchesList = ArrayList<Match>()
-    private lateinit var chatListAdapter : ChatListAdapter
+    lateinit var chatListAdapter : ChatListAdapter
 
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
