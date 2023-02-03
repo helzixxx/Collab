@@ -18,6 +18,7 @@ import com.bumptech.glide.Glide
 import com.example.collab.MainActivity
 import com.example.collab.R
 import com.example.collab.SelectGenresDialog
+import com.example.collab.SelectInstrumentsDialog
 import com.example.collab.models.Person
 import com.google.android.material.imageview.ShapeableImageView
 import com.google.firebase.auth.FirebaseAuth
@@ -115,6 +116,10 @@ class EditProfileActivity : AppCompatActivity() {
             showSelectGenresDialog()
         }
 
+        instrumentsLayout.setOnClickListener {
+            showSelectInstrumentsDialog()
+        }
+
         databaseReference.child("Users").child(currentUserId).get().addOnSuccessListener {
             val currentUser: Person? = it.getValue(Person::class.java)
             nameEditText.setText(currentUser!!.name)
@@ -147,6 +152,8 @@ class EditProfileActivity : AppCompatActivity() {
 //        }
 
     }
+
+
 
     private fun showDatePicker() {
 
@@ -290,6 +297,12 @@ class EditProfileActivity : AppCompatActivity() {
         val fragmentManager = supportFragmentManager
         val selectGenresDialog = SelectGenresDialog()
         selectGenresDialog.show(fragmentManager, "selectGenresDialogFragment")
+    }
+
+    private fun showSelectInstrumentsDialog() {
+        val fragmentManager = supportFragmentManager
+        val selectInstrumentsDialog = SelectInstrumentsDialog()
+        selectInstrumentsDialog.show(fragmentManager, "selectInstrumentsDialog")
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

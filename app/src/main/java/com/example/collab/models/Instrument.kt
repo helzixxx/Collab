@@ -6,7 +6,8 @@ import java.io.Serializable
 
 data class Instrument constructor(
     var id: String? = "",
-    var name: String? = ""
+    var name: String? = "",
+    var isChecked: Boolean = false
 ) : Serializable, Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString()!!,
