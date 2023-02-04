@@ -48,6 +48,8 @@ class EditProfileActivity : AppCompatActivity() {
     private lateinit var genresLayout: LinearLayout
     private lateinit var townshipEditText: EditText
     private lateinit var bioEditText: EditText
+    private lateinit var genresTextView: TextView
+    private lateinit var instrumentsTextView: TextView
     private lateinit var profilePicture: ShapeableImageView
 
     var date: String = ""
@@ -84,6 +86,8 @@ class EditProfileActivity : AppCompatActivity() {
         bioEditText = findViewById(R.id.bioEditText)
         profilePicture = findViewById(R.id.personPhotoCircle)
         dateOfBirthTextView = findViewById(R.id.dateOfBirthTextView)
+        genresTextView = findViewById(R.id.genresTextView)
+        instrumentsTextView = findViewById(R.id.instrumentsTextView)
 
         viewModel = ViewModelProvider(this)[ProfileViewModel::class.java]
         viewModel.genres.observe(this) {
@@ -150,6 +154,25 @@ class EditProfileActivity : AppCompatActivity() {
             townshipEditText.hint = ""
             bioEditText.setText(currentUser.bio)
             bioEditText.hint = ""
+
+            if(currentUser.genres != null){
+                val genreArrayList : ArrayList<String?> = ArrayList()
+                currentUser.genres!!.forEach { genre ->
+                    genreArrayList += genre!!.name
+                }
+                val genresString = genreArrayList.joinToString()
+                genresTextView.text = genresString
+            }
+
+            if(currentUser.instruments != null){
+                val instrumentArrayList : ArrayList<String?> = ArrayList()
+                currentUser.instruments!!.forEach { instrument ->
+                    instrumentArrayList += instrument!!.name
+                }
+                val instrumentsString = instrumentArrayList.joinToString()
+                instrumentsTextView.text = instrumentsString
+            }
+
             if (currentUser.profileImage != "" && currentUser.profileImage != null) {
                 Glide.with(context).load(currentUser.profileImage).into(profilePicture)
             }

@@ -38,8 +38,8 @@ class UserProfileFragment : Fragment() {
     private lateinit var surname: TextView
     private lateinit var dateOfBirth: TextView
     private lateinit var profession: TextView
-    private lateinit var instruments: TextView
-    private lateinit var genres: TextView
+    private lateinit var instrumentsTextView: TextView
+    private lateinit var genresTextView: TextView
     private lateinit var township: TextView
     private lateinit var bio: TextView
     private lateinit var profilePicture: ShapeableImageView
@@ -71,8 +71,8 @@ class UserProfileFragment : Fragment() {
         dateOfBirth = view.findViewById(R.id.dateOfBirthTextView)
         bio = view.findViewById(R.id.bioTextView)
         profession = view.findViewById(R.id.professionTextView)
-        instruments = view.findViewById(R.id.instrumentsTextView)
-        genres = view.findViewById(R.id.genresTextView)
+        instrumentsTextView = view.findViewById(R.id.instrumentsTextView)
+        genresTextView = view.findViewById(R.id.genresTextView)
         township = view.findViewById(R.id.townshipTextView)
         profilePicture = view.findViewById(R.id.personPhotoCircle)
 
@@ -99,6 +99,24 @@ class UserProfileFragment : Fragment() {
             bio.text = currentUser!!.bio
             profession.text = currentUser!!.profession
             township.text = currentUser!!.township
+
+            if(currentUser!!.genres != null){
+                val genreArrayList : ArrayList<String?> = ArrayList()
+                currentUser!!.genres!!.forEach {  genre ->  
+                    genreArrayList += genre!!.name
+                }
+                val genresString = genreArrayList.joinToString()
+                genresTextView.text = genresString
+            }
+
+            if(currentUser!!.instruments != null){
+                val instrumentArrayList : ArrayList<String?> = ArrayList()
+                currentUser!!.instruments!!.forEach {  instrument ->
+                    instrumentArrayList += instrument!!.name
+                }
+                val instrumentsString = instrumentArrayList.joinToString()
+                instrumentsTextView.text = instrumentsString
+            }
             downloadProfileImage()
         }.addOnFailureListener{
             Log.e("firebase", "Error getting data", it)
