@@ -14,15 +14,17 @@ import com.example.collab.models.Genre
 import com.example.collab.models.Instrument
 
 class InstrumentCheckBoxListAdapter constructor(
-    context: Context, entries: ArrayList<Instrument?>
+    context: Context, entries: ArrayList<Instrument?>, onItemClickListener: OnItemClickListener<Instrument?>
 ) : RecyclerView.Adapter<InstrumentCheckBoxListAdapter.ListViewHolder>() {
 
     var context: Context? = null
     private var entries: ArrayList<Instrument?> = java.util.ArrayList()
+    var onItemClickListener: OnItemClickListener<Instrument?>
 
     init {
         this.context = context
         this.entries = entries
+        this.onItemClickListener = onItemClickListener
     }
 
 
@@ -39,7 +41,11 @@ class InstrumentCheckBoxListAdapter constructor(
         instrument.isChecked = false
 
         holder.container.setOnClickListener {
-            instrument.isChecked = !instrument.isChecked
+            onItemClickListener.onItemClick(instrument)
+            holder.checkBox.isChecked = instrument.isChecked
+        }
+        holder.checkBox.setOnClickListener {
+            onItemClickListener.onItemClick(instrument)
             holder.checkBox.isChecked = instrument.isChecked
         }
     }

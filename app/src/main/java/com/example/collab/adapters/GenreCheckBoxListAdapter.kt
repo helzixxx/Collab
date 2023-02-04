@@ -11,17 +11,20 @@ import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.collab.R
 import com.example.collab.models.Genre
+import com.example.collab.models.Instrument
 
 class GenreCheckBoxListAdapter constructor(
-    context: Context, entries: ArrayList<Genre?>
+    context: Context, entries: ArrayList<Genre?>, onItemClickListener: OnItemClickListener<Genre?>
 ) : RecyclerView.Adapter<GenreCheckBoxListAdapter.ListViewHolder>() {
 
     var context: Context? = null
     private var entries: ArrayList<Genre?> = java.util.ArrayList()
+    var onItemClickListener: OnItemClickListener<Genre?>
 
     init {
         this.context = context
         this.entries = entries
+        this.onItemClickListener = onItemClickListener
     }
 
 
@@ -38,7 +41,11 @@ class GenreCheckBoxListAdapter constructor(
         genre.isChecked = false
 
         holder.container.setOnClickListener {
-            genre.isChecked = !genre.isChecked
+            onItemClickListener.onItemClick(genre)
+            holder.checkBox.isChecked = genre.isChecked
+        }
+        holder.checkBox.setOnClickListener {
+            onItemClickListener.onItemClick(genre)
             holder.checkBox.isChecked = genre.isChecked
         }
     }

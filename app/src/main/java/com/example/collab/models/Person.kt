@@ -1,21 +1,20 @@
 package com.example.collab.models
 
-import android.net.Uri
 import android.os.Parcel
 import android.os.Parcelable
-import com.google.firebase.database.Exclude
 import java.io.Serializable
 import java.util.ArrayList
 
-data class Person constructor(
+data class Person(
     var name: String? = "",
     var surname: String? = "",
     var dateOfBirth: String? = "",
     var profession: String? = "",
     var township: String? = "",
     var profileImage: String? = "",
-    var bio: String? = ""
-    //var genres: ArrayList<String>? = null
+    var bio: String? = "",
+    var genres: ArrayList<Genre?>? = null,
+    var instruments: ArrayList<Instrument?>? = null
     ): Serializable, Parcelable {
 
 
@@ -28,7 +27,8 @@ data class Person constructor(
         parcel.readString()!!,
         parcel.readString()!!,
         parcel.readString()!!,
-        //parcel.createStringArrayList()!!
+        parcel.createTypedArrayList(Genre.CREATOR)!!,
+        parcel.createTypedArrayList(Instrument.CREATOR)!!
     ) {
     }
 
@@ -40,7 +40,8 @@ data class Person constructor(
         parcel.writeString(township)
         parcel.writeString(profileImage)
         parcel.writeString(bio)
-        //parcel.writeArray(arrayOf(genres))
+        parcel.writeTypedList(genres)
+        parcel.writeTypedList(instruments)
     }
 
     override fun describeContents(): Int {

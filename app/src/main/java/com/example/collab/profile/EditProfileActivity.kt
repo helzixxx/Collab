@@ -14,17 +14,19 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.example.collab.MainActivity
 import com.example.collab.R
 import com.example.collab.SelectGenresDialog
 import com.example.collab.SelectInstrumentsDialog
+import com.example.collab.models.Genre
+import com.example.collab.models.Instrument
 import com.example.collab.models.Person
 import com.google.android.material.imageview.ShapeableImageView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.core.RepoManager.clear
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.UploadTask
@@ -52,10 +54,14 @@ class EditProfileActivity : AppCompatActivity() {
     private lateinit var currentUserId: String
     private var imageUri: Uri? = null
     private val pickImage = 100
-    private lateinit var genreNames: ArrayList<String>
+
+    private  var genres: ArrayList<Genre?>? = null
+    private  var instruments: ArrayList<Instrument?>? = null
 
     private lateinit var databaseReference: DatabaseReference
     private lateinit var storageReference: StorageReference
+
+    private lateinit var viewModel: ProfileViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -79,6 +85,18 @@ class EditProfileActivity : AppCompatActivity() {
         profilePicture = findViewById(R.id.personPhotoCircle)
         dateOfBirthTextView = findViewById(R.id.dateOfBirthTextView)
 
+        viewModel = ViewModelProvider(this)[ProfileViewModel::class.java]
+        viewModel.genres.observe(this) {
+            if (it != null) {
+                genres = it
+            }
+        }
+
+        viewModel.instruments.observe(this) {
+            if (it != null) {
+                instruments = it
+            }
+        }
 
         val toolbar = findViewById<Toolbar>(R.id.topAppBar)
         toolbar.menu.findItem(R.id.save).isVisible = true
@@ -191,7 +209,7 @@ class EditProfileActivity : AppCompatActivity() {
         //todo при создании профиля и сразу же при загрузке данных и выбора
         // профильной фотографии происходит ошибка и фаербейз не загружет ее в хранилище
 
-        val newPerson = Person(name, surname, dateOfBirth, profession, township, "", bio)
+        val newPerson = Person(name, surname, dateOfBirth, profession, township, "", bio, genres, instruments)
         databaseReference.child("Users").child(currentUserId).setValue(newPerson)
             .addOnSuccessListener {
                 Toast.makeText(context, "user data uploaded successfully", Toast.LENGTH_SHORT)
