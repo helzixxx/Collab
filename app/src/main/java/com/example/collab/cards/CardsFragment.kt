@@ -12,12 +12,17 @@ import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
-import com.example.collab.MainActivity
+import androidx.lifecycle.ViewModelProvider
+import com.example.collab.*
 import com.example.collab.R
-import com.example.collab.SettingsActivity
 import com.example.collab.adapters.CardsAdapter
+import com.example.collab.dialogs.SelectGenresDialog
+import com.example.collab.dialogs.SelectInstrumentsDialog
 import com.example.collab.models.Card
+import com.example.collab.models.Genre
+import com.example.collab.models.Instrument
 import com.example.collab.profile.ProfileActivity
+import com.example.collab.profile.ProfileViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
@@ -38,6 +43,11 @@ class CardsFragment : Fragment() {
 //    private lateinit var likeButton: ImageView
 //    private lateinit var dislikeButton: ImageView
 
+    private lateinit var viewModel: ProfileViewModel
+
+    private  var genres: java.util.ArrayList<Genre?>? = null
+    private  var instruments: java.util.ArrayList<Instrument?>? = null
+
     var cardsAdapter: CardsAdapter? = null
 
     override fun onCreateView(
@@ -50,8 +60,20 @@ class CardsFragment : Fragment() {
         val auth = FirebaseAuth.getInstance()
         databaseReference = FirebaseDatabase.getInstance().reference
         storageReference = FirebaseStorage.getInstance().reference
-
         currentUserId = auth.currentUser!!.uid
+
+        viewModel = ViewModelProvider(requireActivity() as MainActivity)[ProfileViewModel::class.java]
+        viewModel.genres.observe(requireActivity()) {
+            if (it != null) {
+                genres = it
+            }
+        }
+
+        viewModel.instruments.observe(requireActivity()) {
+            if (it != null) {
+                instruments = it
+            }
+        }
 
         //region toolbar
         val toolbar = (requireActivity() as MainActivity).findViewById<Toolbar>(R.id.toolbar)
@@ -82,8 +104,8 @@ class CardsFragment : Fragment() {
 
         cardFrame.setFlingListener(object: SwipeFlingAdapterView.onFlingListener {
             override fun removeFirstObjectInAdapter() {
-                usersCards.removeAt(0);
-                cardsAdapter!!.notifyDataSetChanged();
+                usersCards.removeAt(0)
+                cardsAdapter!!.notifyDataSetChanged()
             }
 
             override fun onLeftCardExit(p0: Any?) {
@@ -116,6 +138,8 @@ class CardsFragment : Fragment() {
         }
 
 
+
+
         return rootView
     }
 
@@ -136,14 +160,19 @@ class CardsFragment : Fragment() {
 
 
         spinnerGenre.setOnClickListener {
-
+            showSelectGenresDialog()
         }
 
         spinnerInstrument.setOnClickListener {
-
+            showSelectInstrumentsDialog()
         }
 
         imageViewDone.setOnClickListener {
+            Log.e("TAG", "usersCards before: $usersCards")
+            usersCards = filterCards()
+            Log.e("TAG", "usersCards after: $usersCards")
+            cardsAdapter!!.notifyDataSetChanged()
+            dialog.dismiss()
 
         }
 
@@ -153,6 +182,50 @@ class CardsFragment : Fragment() {
 
         dialog.setCancelable(false)
         dialog.show()
+    }
+
+    private fun filterCards(): ArrayList<Card?> {
+        val genreCardsList :ArrayList<Card?> = ArrayList()
+        val instrumentCardsList :ArrayList<Card?> = ArrayList()
+        val newCardsList :ArrayList<Card?> = ArrayList()
+
+        usersCards.forEach { card ->
+            val express = card!!.genres != null && card.genres!!.isNotEmpty()
+            if(express){
+                card.genres!!.forEach { genre ->
+                    genres!!.forEach {
+                        if(genre!!.id == it!!.id)
+                            genreCardsList.add(card)
+                    }
+                }
+            }
+            if(card.instruments != null && card.instruments!!.isNotEmpty()){
+                card.instruments!!.forEach{
+                    instruments!!.forEach { instrument ->
+                        if(instrument!!.id == it!!.id)
+                            instrumentCardsList.add(card)
+                    }
+                }
+            }
+        }
+        if (genreCardsList == null || genreCardsList.isEmpty() ) {
+            return instrumentCardsList
+        } else if (instrumentCardsList == null || instrumentCardsList.isEmpty()) {
+            return genreCardsList
+        } else {
+            genreCardsList.forEach { genreCard ->
+                instrumentCardsList.forEach { instrumentCard ->
+                    if (genreCard!!.userId == instrumentCard!!.userId){
+                        newCardsList.add(genreCard)
+                    }
+                }
+            }
+        }
+
+        Log.e("", "filterCards: $newCardsList")
+        return newCardsList
+
+        //cardsAdapter!!.notifyDataSetChanged()
     }
 
     private fun checkRowItem() {
@@ -170,12 +243,9 @@ class CardsFragment : Fragment() {
                     dataSnapshot.key != currentUserId  &&
                     !dataSnapshot.child("connections").child("dislike").hasChild(currentUserId) &&
                     !dataSnapshot.child("connections").child("like").hasChild(currentUserId)) {
-                    val card = Card(
-                        dataSnapshot.key!!,
-                        dataSnapshot.child("name").value.toString(),
-                        dataSnapshot.child("profession").value.toString(),
-                        dataSnapshot.child("profileImage").value.toString()
-                    )
+
+                    val card = dataSnapshot.getValue(Card::class.java)
+                    card!!.userId = dataSnapshot.key!!
                     usersCards.add(card)
                     cardsAdapter!!.notifyDataSetChanged()
                     Log.e("firebase", "Successfully got data $usersCards")
@@ -219,6 +289,18 @@ class CardsFragment : Fragment() {
             }
 
         })
+    }
+
+    private fun showSelectGenresDialog() {
+        val fragmentManager = requireActivity().supportFragmentManager
+        val selectGenresDialog = SelectGenresDialog(true)
+        selectGenresDialog.show(fragmentManager, "selectGenresDialogFragment")
+    }
+
+    private fun showSelectInstrumentsDialog() {
+        val fragmentManager = requireActivity().supportFragmentManager
+        val selectInstrumentsDialog = SelectInstrumentsDialog(true)
+        selectInstrumentsDialog.show(fragmentManager, "selectInstrumentsDialog")
     }
 
     companion object {

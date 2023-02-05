@@ -18,8 +18,8 @@ import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.example.collab.MainActivity
 import com.example.collab.R
-import com.example.collab.SelectGenresDialog
-import com.example.collab.SelectInstrumentsDialog
+import com.example.collab.dialogs.SelectGenresDialog
+import com.example.collab.dialogs.SelectInstrumentsDialog
 import com.example.collab.models.Genre
 import com.example.collab.models.Instrument
 import com.example.collab.models.Person
@@ -336,13 +336,13 @@ class EditProfileActivity : AppCompatActivity() {
 
     private fun showSelectGenresDialog() {
         val fragmentManager = supportFragmentManager
-        val selectGenresDialog = SelectGenresDialog()
+        val selectGenresDialog = SelectGenresDialog(false)
         selectGenresDialog.show(fragmentManager, "selectGenresDialogFragment")
     }
 
     private fun showSelectInstrumentsDialog() {
         val fragmentManager = supportFragmentManager
-        val selectInstrumentsDialog = SelectInstrumentsDialog()
+        val selectInstrumentsDialog = SelectInstrumentsDialog(false)
         selectInstrumentsDialog.show(fragmentManager, "selectInstrumentsDialog")
     }
 

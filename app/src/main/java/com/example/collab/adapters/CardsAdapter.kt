@@ -22,8 +22,7 @@ class CardsAdapter constructor(
     context: Context,
     layoutResource: Int,
     private val entries: ArrayList<Card?>
-) :
-    ArrayAdapter<Card>(context, layoutResource, entries) {
+) : ArrayAdapter<Card>(context, layoutResource, entries) {
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         val card: Card? = entries[position]

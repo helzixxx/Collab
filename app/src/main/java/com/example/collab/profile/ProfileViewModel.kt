@@ -10,4 +10,7 @@ class ProfileViewModel : ViewModel() {
     val genres = MutableLiveData<ArrayList<Genre?>?>()
     val instruments = MutableLiveData<ArrayList<Instrument?>?>()
 
+//    val genresFilter = MutableLiveData<ArrayList<Genre?>?>()
+//    val instrumentsFilter  = MutableLiveData<ArrayList<Instrument?>?>()
+
 }
