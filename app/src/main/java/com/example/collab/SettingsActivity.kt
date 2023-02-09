@@ -1,15 +1,19 @@
 package com.example.collab
 
+import android.app.Dialog
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.ContextThemeWrapper
 import android.widget.Button
 import android.widget.ImageView
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.example.collab.login.LoginActivity
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DatabaseReference
@@ -59,7 +63,6 @@ class SettingsActivity : AppCompatActivity() {
         val deleteAccount = findViewById<Button>(R.id.deleteAccount)
         deleteAccount.setOnClickListener {
             showDeleteDialog()
-
         }
 
 
@@ -74,23 +77,20 @@ class SettingsActivity : AppCompatActivity() {
     }
 
     private fun showDeleteDialog() {
-        val builder = AlertDialog.Builder(this)
-        val alertDialog: AlertDialog = builder.create()
-        builder.setTitle("Usunięcie profilu")
-        builder.setMessage("Czy napewno chcesz usunąć swój proful?")
-
-
-        builder.setPositiveButton("Tak") { dialog, which ->
+        val dialog = Dialog(this)
+        dialog.setContentView(R.layout.dialog_delete_account)
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        dialog.findViewById<ExtendedFloatingActionButton>(R.id.buttonDelete).setOnClickListener{
             deleteUser()
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
         }
-
-        builder.setNegativeButton("Nie") { dialog, which ->
-            alertDialog.cancel()
+        dialog.findViewById<FloatingActionButton>(R.id.buttonCancel).setOnClickListener{
+            dialog.dismiss()
         }
+        dialog.setCancelable(true)
+        dialog.show()
 
-        alertDialog.show()
     }
 
     private fun deleteUser(){

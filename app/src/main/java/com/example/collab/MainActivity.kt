@@ -58,14 +58,29 @@ class MainActivity : AppCompatActivity() {
         userProfileFragment = UserProfileFragment.newInstance()
         chatListFragment = ChatListFragment.newInstance()
 
-        if (intentCheck == "1") {
-            intentCheck = ""
-            supportFragmentManager.beginTransaction()
-                .add(R.id.container, userProfileFragment, "userProfileFragment").commit()
-        } else {
-            supportFragmentManager.beginTransaction()
-                .add(R.id.container, cardsFragment, "profileCardFragment").commit()
+        when(intentCheck) {
+            "1"-> {
+                //intentCheck = ""
+                supportFragmentManager.beginTransaction()
+                    .add(R.id.container, userProfileFragment, "userProfileFragment").commit()
+            }
+            "2" -> {
+                supportFragmentManager.beginTransaction()
+                    .add(R.id.container, chatListFragment, "chatListFragment").commit()
+            }
+            else -> {
+                supportFragmentManager.beginTransaction()
+                    .add(R.id.container, cardsFragment, "profileCardFragment").commit()
+            }
         }
+//        if (intentCheck == "1") {
+//            intentCheck = ""
+//            supportFragmentManager.beginTransaction()
+//                .add(R.id.container, userProfileFragment, "userProfileFragment").commit()
+//        } else {
+//            supportFragmentManager.beginTransaction()
+//                .add(R.id.container, cardsFragment, "profileCardFragment").commit()
+//        }
 
         bottomNav = findViewById(R.id.bottomNavigationView)
         bottomNav.setOnNavigationItemSelectedListener {

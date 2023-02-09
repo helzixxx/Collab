@@ -57,8 +57,8 @@ class EditProfileActivity : AppCompatActivity() {
     private var imageUri: Uri? = null
     private val pickImage = 100
 
-    private  var genres: ArrayList<Genre?>? = null
-    private  var instruments: ArrayList<Instrument?>? = null
+    private var genres: ArrayList<Genre?>? = null
+    private var instruments: ArrayList<Instrument?>? = null
 
     private lateinit var databaseReference: DatabaseReference
     private lateinit var storageReference: StorageReference
@@ -93,12 +93,26 @@ class EditProfileActivity : AppCompatActivity() {
         viewModel.genres.observe(this) {
             if (it != null) {
                 genres = it
+                val genreArrayList: ArrayList<String?> = ArrayList()
+                genres!!.forEach { genre ->
+                    genreArrayList += genre!!.name
+                }
+                val genresString = genreArrayList.joinToString()
+                genresTextView.text = genresString
+
             }
         }
 
         viewModel.instruments.observe(this) {
             if (it != null) {
                 instruments = it
+                val instrumentArrayList: ArrayList<String?> = ArrayList()
+                instruments!!.forEach { instrument ->
+                    instrumentArrayList += instrument!!.name
+                }
+                val instrumentsString = instrumentArrayList.joinToString()
+                instrumentsTextView.text = instrumentsString
+
             }
         }
 
@@ -154,9 +168,10 @@ class EditProfileActivity : AppCompatActivity() {
             townshipEditText.hint = ""
             bioEditText.setText(currentUser.bio)
             bioEditText.hint = ""
+            date = currentUser.dateOfBirth!!
 
-            if(currentUser.genres != null){
-                val genreArrayList : ArrayList<String?> = ArrayList()
+            if (currentUser.genres != null) {
+                val genreArrayList: ArrayList<String?> = ArrayList()
                 currentUser.genres!!.forEach { genre ->
                     genreArrayList += genre!!.name
                 }
@@ -164,8 +179,8 @@ class EditProfileActivity : AppCompatActivity() {
                 genresTextView.text = genresString
             }
 
-            if(currentUser.instruments != null){
-                val instrumentArrayList : ArrayList<String?> = ArrayList()
+            if (currentUser.instruments != null) {
+                val instrumentArrayList: ArrayList<String?> = ArrayList()
                 currentUser.instruments!!.forEach { instrument ->
                     instrumentArrayList += instrument!!.name
                 }
@@ -193,7 +208,6 @@ class EditProfileActivity : AppCompatActivity() {
 //        }
 
     }
-
 
 
     private fun showDatePicker() {
@@ -232,7 +246,8 @@ class EditProfileActivity : AppCompatActivity() {
         //todo при создании профиля и сразу же при загрузке данных и выбора
         // профильной фотографии происходит ошибка и фаербейз не загружет ее в хранилище
 
-        val newPerson = Person(name, surname, dateOfBirth, profession, township, "", bio, genres, instruments)
+        val newPerson =
+            Person(name, surname, dateOfBirth, profession, township, "", bio, genres, instruments)
         databaseReference.child("Users").child(currentUserId).setValue(newPerson)
             .addOnSuccessListener {
                 Toast.makeText(context, "user data uploaded successfully", Toast.LENGTH_SHORT)
@@ -241,8 +256,8 @@ class EditProfileActivity : AppCompatActivity() {
                     uploadProfilePicture()
                 }
             }.addOnFailureListener {
-            Toast.makeText(context, "user data upload failed ", Toast.LENGTH_SHORT).show()
-        }
+                Toast.makeText(context, "user data upload failed ", Toast.LENGTH_SHORT).show()
+            }
         finish()
     }
 

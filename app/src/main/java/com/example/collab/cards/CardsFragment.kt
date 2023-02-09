@@ -6,10 +6,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.*
-import android.widget.FrameLayout
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -42,6 +39,8 @@ class CardsFragment : Fragment() {
     private lateinit var noMoreMatches: FrameLayout
 //    private lateinit var likeButton: ImageView
 //    private lateinit var dislikeButton: ImageView
+    private lateinit var genresTextView: TextView
+    private lateinit var instrumentsTextView: TextView
 
     private lateinit var viewModel: ProfileViewModel
 
@@ -66,12 +65,25 @@ class CardsFragment : Fragment() {
         viewModel.genres.observe(requireActivity()) {
             if (it != null) {
                 genres = it
+
+                    val genreArrayList: java.util.ArrayList<String?> = java.util.ArrayList()
+                    genres!!.forEach { genre ->
+                        genreArrayList += genre!!.name
+                    }
+                    val genresString = genreArrayList.joinToString()
+                    genresTextView.text = genresString
             }
         }
 
         viewModel.instruments.observe(requireActivity()) {
             if (it != null) {
                 instruments = it
+                val instrumentArrayList: java.util.ArrayList<String?> = java.util.ArrayList()
+                instruments!!.forEach { instrument ->
+                    instrumentArrayList += instrument!!.name
+                }
+                val instrumentsString = instrumentArrayList.joinToString()
+                instrumentsTextView.text = instrumentsString
             }
         }
 
@@ -157,6 +169,8 @@ class CardsFragment : Fragment() {
         val spinnerInstrument = dialog.findViewById<LinearLayout>(R.id.spinnerInstrument)
         val imageViewDone = dialog.findViewById<ImageView>(R.id.imageViewDone)
         val imageViewClose = dialog.findViewById<ImageView>(R.id.imageViewClose)
+        genresTextView = dialog.findViewById(R.id.genresTextView)
+        instrumentsTextView = dialog.findViewById(R.id.instrumentsTextView)
 
 
         spinnerGenre.setOnClickListener {
@@ -269,12 +283,11 @@ class CardsFragment : Fragment() {
     }
 
     fun isMatchHappened( userId : String ){
-        val currentUserConnection: DatabaseReference =
-            databaseReference.child("Users").child(currentUserId).child("connections").child("like").child(userId)
+        val currentUserConnection: DatabaseReference = databaseReference.child("Users").child(currentUserId).child("connections").child("like").child(userId)
         currentUserConnection.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 if (snapshot.exists()) {
-                    Toast.makeText(requireActivity(), "new Connection", Toast.LENGTH_LONG).show()
+                    Toast.makeText(requireActivity(), "New Connection", Toast.LENGTH_LONG).show()
 
                     val key = databaseReference.child("Chat").push().key
 

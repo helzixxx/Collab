@@ -24,6 +24,7 @@
 
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/chatRV"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toTopOf="@+id/sendMessage"
@@ -55,7 +56,7 @@
             android:layout_weight="1">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/barcodeEditText"
+                android:id="@+id/messageEditText"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/white"
@@ -64,6 +65,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <ImageView
+            android:id="@+id/sendButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:srcCompat="@drawable/ic_send" />
