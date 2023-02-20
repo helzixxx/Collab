@@ -46,7 +46,7 @@ class CardsAdapter constructor(
         if (card.profileImage != null && card.profileImage != "") {
             Glide.with(context).load(card.profileImage).into(personPhotoCard)
         } else {
-            Glide.with(context).load(R.drawable.defaut_profile_image).into(personPhotoCard)
+            Glide.with(context).load(R.drawable.user_card).into(personPhotoCard)
         }
 
 //        val profileCardLayout = view!!.findViewById<CardView>(R.id.profileCardLayout)
