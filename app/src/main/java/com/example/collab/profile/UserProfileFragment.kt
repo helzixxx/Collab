@@ -13,11 +13,11 @@ import com.example.collab.MainActivity
 import com.example.collab.R
 import com.example.collab.SettingsActivity
 import com.example.collab.cards.CardsFragment
+import com.example.collab.helpers.CheckPersonEntities
 import com.example.collab.models.Person
 import com.google.android.material.imageview.ShapeableImageView
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.google.gson.Gson
@@ -91,36 +91,82 @@ class UserProfileFragment : Fragment() {
         // todo потянуть вниз для обновления информации о юзере
         // или addOnDataEventChange
         // сделать функцию getUserInfo и запихнуть туда
-        databaseReference.child(currentUserId).get().addOnSuccessListener {
-            currentUser = it.getValue(Person::class.java)
-            name.text = currentUser!!.name
-            surname.text = currentUser!!.surname
-            dateOfBirth.text = currentUser!!.dateOfBirth
-            bio.text = currentUser!!.bio
-            profession.text = currentUser!!.profession
-            township.text = currentUser!!.township
+//        databaseReference.child(currentUserId).get().addOnSuccessListener {
+//            currentUser = it.getValue(Person::class.java)
+//            name.text = currentUser!!.name
+//            surname.text = currentUser!!.surname
+//            dateOfBirth.text = currentUser!!.dateOfBirth
+//            bio.text = currentUser!!.bio
+//            profession.text = currentUser!!.profession
+//            township.text = currentUser!!.township
+//
+//            if(currentUser!!.genres != null){
+//                val genreArrayList : ArrayList<String?> = ArrayList()
+//                currentUser!!.genres!!.forEach {  genre ->
+//                    genreArrayList += genre!!.name
+//                }
+//                val genresString = genreArrayList.joinToString()
+//                genresTextView.text = genresString
+//            }
+//
+//            if(currentUser!!.instruments != null){
+//                val instrumentArrayList : ArrayList<String?> = ArrayList()
+//                currentUser!!.instruments!!.forEach {  instrument ->
+//                    instrumentArrayList += instrument!!.name
+//                }
+//                val instrumentsString = instrumentArrayList.joinToString()
+//                instrumentsTextView.text = instrumentsString
+//            }
+//            downloadProfileImage()
+//        }.addOnFailureListener{
+//            Log.e("firebase", "Error getting data", it)
+//        }
 
-            if(currentUser!!.genres != null){
-                val genreArrayList : ArrayList<String?> = ArrayList()
-                currentUser!!.genres!!.forEach {  genre ->  
-                    genreArrayList += genre!!.name
+        databaseReference.child(currentUserId).addValueEventListener(object : ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if(snapshot.exists()) {
+                    currentUser = snapshot.getValue(Person::class.java)
+                    val checkPersonEntities = CheckPersonEntities()
+                    checkPersonEntities.checkPerson(currentUser)
+                    name.text = currentUser!!.name
+                    surname.text = currentUser!!.surname
+                    dateOfBirth.text = currentUser!!.dateOfBirth
+                    bio.text = currentUser!!.bio
+                    profession.text = currentUser!!.profession
+                    township.text = currentUser!!.township
+
+                    if (currentUser!!.profileImage != null && currentUser!!.profileImage != "") {
+                        Glide.with(requireActivity()).load(currentUser!!.profileImage)
+                            .into(profilePicture)
+                    } else {
+                        Glide.with(requireActivity()).load(R.drawable.defaut_profile_image)
+                            .into(profilePicture)
+                    }
+
+                    if (currentUser!!.genres != null) {
+                        val genreArrayList: ArrayList<String?> = ArrayList()
+                        currentUser!!.genres!!.forEach { genre ->
+                            genreArrayList += genre!!.name
+                        }
+                        val genresString = genreArrayList.joinToString()
+                        genresTextView.text = genresString
+                    }
+
+                    if (currentUser!!.instruments != null) {
+                        val instrumentArrayList: ArrayList<String?> = ArrayList()
+                        currentUser!!.instruments!!.forEach { instrument ->
+                            instrumentArrayList += instrument!!.name
+                        }
+                        val instrumentsString = instrumentArrayList.joinToString()
+                        instrumentsTextView.text = instrumentsString
+                    }
                 }
-                val genresString = genreArrayList.joinToString()
-                genresTextView.text = genresString
             }
 
-            if(currentUser!!.instruments != null){
-                val instrumentArrayList : ArrayList<String?> = ArrayList()
-                currentUser!!.instruments!!.forEach {  instrument ->
-                    instrumentArrayList += instrument!!.name
-                }
-                val instrumentsString = instrumentArrayList.joinToString()
-                instrumentsTextView.text = instrumentsString
+            override fun onCancelled(error: DatabaseError) {
             }
-            downloadProfileImage()
-        }.addOnFailureListener{
-            Log.e("firebase", "Error getting data", it)
-        }
+
+        })
 
         return view
     }

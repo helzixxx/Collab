@@ -287,7 +287,7 @@ class CardsFragment : Fragment() {
         currentUserConnection.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 if (snapshot.exists()) {
-                    Toast.makeText(requireActivity(), "New Connection", Toast.LENGTH_LONG).show()
+                    Toast.makeText(requireActivity(), "Nowe dopasowanie", Toast.LENGTH_LONG).show()
 
                     val key = databaseReference.child("Chat").push().key
 

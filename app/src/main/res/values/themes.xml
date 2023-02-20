@@ -9,6 +9,7 @@
         <item name="colorSecondary">@color/blue2</item>
         <item name="colorSecondaryVariant">@color/blue1</item>
         <item name="colorOnSecondary">@color/black</item>
+        <item name="android:colorAccent">@color/blue3</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
@@ -29,9 +30,12 @@
         <item name="android:buttonBarPositiveButtonStyle">@style/DatePickerTheme.ButtonBarNegativeButtonStyle</item>
     </style>
 
-
     <style name="DatePickerTheme.ButtonBarNegativeButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
         <item name="android:textColor">@color/blue3</item>
+    </style>
+
+    <style name="AlertDialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="colorAccent">@color/blue3</item>
     </style>
 
 

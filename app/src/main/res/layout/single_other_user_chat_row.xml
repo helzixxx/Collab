@@ -49,6 +49,7 @@
         android:text="8:00"
         android:textColor="#C0C0C0"
         android:textSize="10sp"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/message_card"
         app:layout_constraintStart_toEndOf="@+id/message_card" />
 

@@ -140,7 +140,7 @@ class EditProfileActivity : AppCompatActivity() {
 
 
         profilePicture.setOnClickListener {
-            val gallery = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
+            val gallery = Intent(Intent.ACTION_OPEN_DOCUMENT, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
             startActivityForResult(gallery, pickImage)
         }
 
@@ -250,13 +250,13 @@ class EditProfileActivity : AppCompatActivity() {
             Person(name, surname, dateOfBirth, profession, township, "", bio, genres, instruments)
         databaseReference.child("Users").child(currentUserId).setValue(newPerson)
             .addOnSuccessListener {
-                Toast.makeText(context, "user data uploaded successfully", Toast.LENGTH_SHORT)
+                Toast.makeText(context, "Dane użytkownika zostały zapisane pomyślnie", Toast.LENGTH_SHORT)
                     .show()
                 if (imageUri != null) {
                     uploadProfilePicture()
                 }
             }.addOnFailureListener {
-                Toast.makeText(context, "user data upload failed ", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Dane użytkownika nie zostały zapisane ", Toast.LENGTH_SHORT).show()
             }
         finish()
     }
