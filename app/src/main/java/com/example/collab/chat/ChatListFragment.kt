@@ -2,11 +2,15 @@ package com.example.collab.chat
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.LinearLayout
 import androidx.appcompat.widget.Toolbar
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -28,6 +32,9 @@ class ChatListFragment : Fragment() {
     lateinit var currentUserId: String
     private var matchesList = ArrayList<Match>()
     lateinit var chatListAdapter : ChatListAdapter
+    private var containerSearchView: View? = null
+    var isDown: Boolean = false
+    private var listView: LinearLayout? = null
 
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
@@ -41,11 +48,27 @@ class ChatListFragment : Fragment() {
 
         currentUserId = auth.currentUser!!.uid
 
+        listView = rootView.findViewById(R.id.containerMatch)
+        containerSearchView = rootView.findViewById(R.id.containerSearch)
+        containerSearchView?.visibility = View.GONE
+
         //region toolbar
         val toolbar = (requireActivity() as MainActivity).findViewById<Toolbar>(R.id.toolbar)
         toolbar.menu.findItem(R.id.search).isVisible = true
         toolbar.menu.findItem(R.id.filter).isVisible = false
         toolbar.menu.findItem(R.id.settings).isVisible = false
+
+        toolbar.setOnMenuItemClickListener { item ->
+            when (item.itemId) {
+                R.id.search -> {
+                    if (isDown) hide()
+                    else show()
+                    true
+                }
+                else -> { false }
+            }
+        }
+
         //endregion
 
         matchesList.clear()
@@ -56,6 +79,23 @@ class ChatListFragment : Fragment() {
         chatListAdapter = ChatListAdapter(requireContext(), ArrayList())
         chatListRV.layoutManager = layoutManager
         chatListRV.adapter = chatListAdapter
+
+        val editTextSearch = rootView.findViewById<EditText>(R.id.editTextName)
+        editTextSearch.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                if(p0 != null && p0 != ""){
+                    chatListAdapter.updateListSearch(p0)
+                } else {
+                    chatListAdapter.updateListEntries()
+                }
+
+            }
+
+            override fun afterTextChanged(p0: Editable?) {}
+
+        })
 
         return rootView
     }
@@ -112,6 +152,28 @@ class ChatListFragment : Fragment() {
 
         })
 
+    }
+
+    fun hide() {
+        containerSearchView!!.visibility = View.GONE
+        val params = LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            LinearLayout.LayoutParams.MATCH_PARENT
+        )
+        params.setMargins(0, 112, 0, 0)
+        listView!!.layoutParams = params
+        isDown = false
+    }
+
+    fun show(){
+        containerSearchView!!.visibility = View.VISIBLE
+        val params = LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            LinearLayout.LayoutParams.MATCH_PARENT
+        )
+        params.setMargins(0, 224, 0, 0)
+        listView!!.layoutParams = params
+        isDown = true
     }
 
     companion object {

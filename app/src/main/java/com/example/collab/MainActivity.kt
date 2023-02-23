@@ -25,9 +25,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var userProfileFragment: UserProfileFragment
     private lateinit var chatListFragment: ChatListFragment
 
-    private var listView: View? = null
-    private var containerSearchView: View? = null
-    private var isDown: Boolean = false
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,27 +35,15 @@ class MainActivity : AppCompatActivity() {
         //val userId = intent.getStringExtra("UserId")
         var intentCheck = intent.getStringExtra("Check")
 
-        listView = findViewById(R.id.container)
-        containerSearchView = findViewById(R.id.containerSearch)
-        containerSearchView?.visibility = View.GONE
-        val toolbar = findViewById<Toolbar>(R.id.toolbar)
 
-        toolbar.setOnMenuItemClickListener { item ->
-            when (item.itemId) {
-                R.id.search -> {
-                    if (isDown) hide()
-                    else show()
-                    true
-                }
-                else -> {
-                    false
-                }
-            }
-        }
+
 
         cardsFragment = CardsFragment.newInstance()
         userProfileFragment = UserProfileFragment.newInstance()
         chatListFragment = ChatListFragment.newInstance()
+
+       // val toolbar = findViewById<Toolbar>(R.id.toolbar)
+
 
         when(intentCheck) {
             "1"-> {
@@ -101,14 +88,14 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.cards -> {
                     if (!profileCardFragmentVisibility) {
-                        if (isDown) hide()
+                        //if (isDown) hide()
                         supportFragmentManager.beginTransaction()
                             .replace(R.id.container, cardsFragment, "profileCardFragment").commit()
                     }
                     true
                 }
                 R.id.profile -> {
-                    if (isDown) hide()
+                    //if (isDown) hide()
                     if (!userProfileFragmentVisibility) {
                         supportFragmentManager.beginTransaction()
                             .replace(R.id.container, userProfileFragment, "userProfileFragment")
@@ -123,47 +110,12 @@ class MainActivity : AppCompatActivity() {
         }
 
 
-        val editTextSearch = findViewById<EditText>(R.id.editTextName)
-        editTextSearch.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
 
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                if(p0 != null && p0 != ""){
-                    chatListFragment.chatListAdapter.updateListSearch(p0)
-                } else {
-                    chatListFragment.chatListAdapter.updateListEntries()
-                }
-
-            }
-
-            override fun afterTextChanged(p0: Editable?) {}
-
-        })
 
 
     }
 
-    private fun hide() {
-        containerSearchView!!.visibility = View.GONE
-        val params = ConstraintLayout.LayoutParams(
-            LinearLayout.LayoutParams.MATCH_PARENT,
-            LinearLayout.LayoutParams.MATCH_PARENT
-        )
-        params.setMargins(0, 112, 0, 0)
-        listView!!.layoutParams = params
-        isDown = false
-    }
 
-    private fun show(){
-        containerSearchView!!.visibility = View.VISIBLE
-        val params = ConstraintLayout.LayoutParams(
-            LinearLayout.LayoutParams.MATCH_PARENT,
-            LinearLayout.LayoutParams.MATCH_PARENT
-        )
-        params.setMargins(0, 224, 0, 0)
-        listView!!.layoutParams = params
-        isDown = true
-    }
 
 
 }
