@@ -175,24 +175,24 @@ class ChatListFragment : Fragment() {
 
     }
 
-    fun hide() {
+    private fun hide() {
         containerSearchView!!.visibility = View.GONE
         val params = LinearLayout.LayoutParams(
             LinearLayout.LayoutParams.MATCH_PARENT,
             LinearLayout.LayoutParams.MATCH_PARENT
         )
-        params.setMargins(0, 112, 0, 0)
+        params.setMargins(0, 0, 0, 0)
         listView!!.layoutParams = params
         isDown = false
     }
 
-    fun show(){
+    private fun show(){
         containerSearchView!!.visibility = View.VISIBLE
         val params = LinearLayout.LayoutParams(
             LinearLayout.LayoutParams.MATCH_PARENT,
             LinearLayout.LayoutParams.MATCH_PARENT
         )
-        params.setMargins(0, 224, 0, 0)
+        params.setMargins(0, 0, 0, 0)
         listView!!.layoutParams = params
         isDown = true
     }

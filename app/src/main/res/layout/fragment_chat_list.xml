@@ -21,7 +21,7 @@
             android:paddingLeft="15dp"
             android:paddingTop="6dp"
             android:paddingRight="8dp"
-
+            android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
@@ -41,8 +41,8 @@
 
         <LinearLayout
             android:id="@+id/containerMatch"
-            android:layout_width="407dp"
-            android:layout_height="857dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
             app:layout_constraintTop_toBottomOf="@+id/containerSearch">
 
