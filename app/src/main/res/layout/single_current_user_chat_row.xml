@@ -41,13 +41,12 @@
     </androidx.cardview.widget.CardView>
 
     <TextView
-        android:id="@+id/text_gchat_timestamp_me"
+        android:id="@+id/timestamp_me"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="10:00"
         android:textColor="#C0C0C0"
         android:textSize="10sp"
-        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/card_gchat_message_me"
         app:layout_constraintEnd_toStartOf="@+id/card_gchat_message_me" />
 

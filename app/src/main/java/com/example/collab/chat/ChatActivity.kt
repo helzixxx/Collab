@@ -18,6 +18,8 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 
 class ChatActivity : AppCompatActivity() {
@@ -105,19 +107,22 @@ class ChatActivity : AppCompatActivity() {
                 if (snapshot.exists()) {
                     var message: String? = null
                     var createdByUser: String? = null
-                    //var createdAt: Long = 0L
+                    var createdAt: String? = null
                     if (snapshot.child("text").value != null) {
                         message = snapshot.child("text").value.toString()
                     }
                     if (snapshot.child("createdByUser").value != null) {
                         createdByUser = snapshot.child("createdByUser").value.toString()
                     }
+                    if (snapshot.child("createdAt").value != null) {
+                        createdAt = snapshot.child("createdAt").value.toString()
+                    }
                     if (message != null && createdByUser != null) {
                         var currentUserBoolean = false
                         if (createdByUser == currentUserId) {
                             currentUserBoolean = true
                         }
-                        val newMessage = Message(message, currentUserBoolean)
+                        val newMessage = Message(message, currentUserBoolean, createdAt!!)
                         resultChat.add(newMessage)
                         chatAdapter.notifyDataSetChanged()
                     }
@@ -138,10 +143,15 @@ class ChatActivity : AppCompatActivity() {
     private fun sendMessage() {
         val sendMessageText: String = messageEditText.text.toString()
 
+        val formatter = DateTimeFormatter.ofPattern("HH:mm")
+        val current = LocalDateTime.now().format(formatter)
+
         if (sendMessageText.isNotEmpty()) {
             val newMessageDb: DatabaseReference = databaseChat.push()
             val newMessage: HashMap<String, String> = HashMap()
+
             newMessage["createdByUser"] = currentUserId
+            newMessage["createdAt"] = current
             newMessage["text"] = sendMessageText
             newMessageDb.setValue(newMessage)
         }

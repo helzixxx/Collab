@@ -65,19 +65,22 @@ class ChatAdapter constructor(context : Context, entries: ArrayList<Message>) :
     inner class MyMessageViewHolder (view: View) : MessageViewHolder(view) {
 
         private var messageText: TextView = view.findViewById(R.id.message_me)
+        private var timeText: TextView = view.findViewById(R.id.timestamp_me)
 
         override fun bind(chat: Message) {
             messageText.text = chat.message
-            //timeText.text = DateUtils.fromMillisToTimeString(chat.time)
+            timeText.text = chat.createdAt
         }
     }
 
     inner class OtherMessageViewHolder (view: View) : MessageViewHolder(view) {
+
         private var messageText: TextView = view.findViewById(R.id.message_other)
+        private var timeText: TextView = view.findViewById(R.id.timestamp_other)
 
         override fun bind(chat: Message) {
             messageText.text = chat.message
-            //timeText.text = DateUtils.fromMillisToTimeString(chat.time)
+            timeText.text = chat.createdAt
         }
     }
 
