@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,17 +13,21 @@ import android.widget.LinearLayout
 import androidx.appcompat.widget.Toolbar
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.collab.MainActivity
 import com.example.collab.R
 import com.example.collab.SettingsActivity
 import com.example.collab.adapters.ChatListAdapter
+import com.example.collab.models.Genre
 import com.example.collab.models.Match
+import com.example.collab.profile.ProfileViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
+import java.io.IOException
 
 
 class ChatListFragment : Fragment() {
@@ -35,6 +40,9 @@ class ChatListFragment : Fragment() {
     private var containerSearchView: View? = null
     var isDown: Boolean = false
     private var listView: LinearLayout? = null
+
+    private lateinit var viewModel: ChatListViewModel
+    private var chats = ArrayList<Match>()
 
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
@@ -71,6 +79,17 @@ class ChatListFragment : Fragment() {
 
         //endregion
 
+        viewModel = ViewModelProvider(requireActivity() as MainActivity)[ChatListViewModel::class.java]
+        viewModel.chats.observe(requireActivity()) {
+            try {
+                if (it != null){
+                    chats = it
+                }
+            } catch ( e: IOException) {
+                Log.e("ERROR", " ERROR getPlannedOperations" )
+            }
+        }
+
         matchesList.clear()
         getMatches()
 
@@ -86,9 +105,10 @@ class ChatListFragment : Fragment() {
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 if(p0 != null && p0 != ""){
-                    chatListAdapter.updateListSearch(p0)
+                    chatListAdapter.updateList(viewModel.chats.value!!.filter { it.name!!.contains(
+                        p0,true)} as ArrayList<Match>)
                 } else {
-                    chatListAdapter.updateListEntries()
+                    chatListAdapter.updateList(viewModel.chats.value!!)
                 }
 
             }
@@ -142,6 +162,7 @@ class ChatListFragment : Fragment() {
                     if(!matchesList.contains(match)){
                         matchesList.add(match)
                     }
+                    viewModel.chats.value = matchesList
                     chatListAdapter.updateList(matchesList)
                 }
             }
