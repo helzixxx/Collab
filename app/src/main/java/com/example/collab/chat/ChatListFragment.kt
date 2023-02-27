@@ -151,14 +151,18 @@ class ChatListFragment : Fragment() {
                     val userId: String = snapshot.key!!
                     var name = ""
                     var profileImageUrl = ""
+                    var lastMessage = ""
                     if (snapshot.child("name").value != null) {
                         name = snapshot.child("name").value.toString()
                     }
                     if (snapshot.child("profileImage").value != null) {
                         profileImageUrl = snapshot.child("profileImage").value.toString()
                     }
+                    if (snapshot.child("connections").child("matches").child(currentUserId).child("lastMessage").value != null) {
+                        lastMessage = snapshot.child("connections").child("matches").child(currentUserId).child("lastMessage").value.toString()
+                    }
 
-                    val match = Match(userId, name, "", profileImageUrl)
+                    val match = Match(userId, name, lastMessage, profileImageUrl)
                     if(!matchesList.contains(match)){
                         matchesList.add(match)
                     }

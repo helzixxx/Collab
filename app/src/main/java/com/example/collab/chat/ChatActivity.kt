@@ -117,12 +117,12 @@ class ChatActivity : AppCompatActivity() {
                     if (snapshot.child("createdAt").value != null) {
                         createdAt = snapshot.child("createdAt").value.toString()
                     }
-                    if (message != null && createdByUser != null) {
+                    if (message != null && createdByUser != null && createdAt != null) {
                         var currentUserBoolean = false
                         if (createdByUser == currentUserId) {
                             currentUserBoolean = true
                         }
-                        val newMessage = Message(message, currentUserBoolean, createdAt!!)
+                        val newMessage = Message(message, currentUserBoolean, createdAt)
                         resultChat.add(newMessage)
                         chatAdapter.notifyDataSetChanged()
                     }
@@ -141,6 +141,7 @@ class ChatActivity : AppCompatActivity() {
     }
 
     private fun sendMessage() {
+
         val sendMessageText: String = messageEditText.text.toString()
 
         val formatter = DateTimeFormatter.ofPattern("HH:mm")
@@ -154,6 +155,10 @@ class ChatActivity : AppCompatActivity() {
             newMessage["createdAt"] = current
             newMessage["text"] = sendMessageText
             newMessageDb.setValue(newMessage)
+
+            databaseReference.child("Users").child(matchUser.userId!!).child("connections").child("matches").child(currentUserId).child("lastMessage").setValue(sendMessageText)
+            databaseReference.child("Users").child(currentUserId).child("connections").child("matches").child(matchUser.userId!!).child("lastMessage").setValue(sendMessageText)
+
         }
         messageEditText.setText("")
     }
