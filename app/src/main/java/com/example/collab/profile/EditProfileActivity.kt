@@ -242,10 +242,6 @@ class EditProfileActivity : AppCompatActivity() {
         val township = townshipEditText.text.toString()
         val bio = bioEditText.text.toString()
 
-
-        //todo при создании профиля и сразу же при загрузке данных и выбора
-        // профильной фотографии происходит ошибка и фаербейз не загружет ее в хранилище
-
         val newPerson =
             Person(name, surname, dateOfBirth, profession, township, "", bio, genres, instruments)
         databaseReference.child("Users").child(currentUserId).setValue(newPerson)
@@ -264,11 +260,7 @@ class EditProfileActivity : AppCompatActivity() {
     private fun uploadProfilePicture() {
 
         storageReference = FirebaseStorage.getInstance().getReference("Users/$currentUserId")
-//            storageReference.putFile(imageUri!!).addOnSuccessListener {
-//                Toast.makeText(context, "Pic uploaded successfully", Toast.LENGTH_SHORT).show()
-//            }.addOnFailureListener {
-//                Toast.makeText(context, "Pic upload failed ", Toast.LENGTH_SHORT).show()
-//            }
+
         var bitmap: Bitmap? = null
 
         try {

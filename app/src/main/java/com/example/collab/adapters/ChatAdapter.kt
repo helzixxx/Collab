@@ -1,11 +1,14 @@
 package com.example.collab.adapters
 
 import android.content.Context
+import android.media.Image
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.collab.R
 import com.example.collab.models.Message
 
@@ -66,10 +69,18 @@ class ChatAdapter constructor(context : Context, entries: ArrayList<Message>) :
 
         private var messageText: TextView = view.findViewById(R.id.message_me)
         private var timeText: TextView = view.findViewById(R.id.timestamp_me)
+        private var image_me: ImageView = view.findViewById(R.id.image_me)
 
         override fun bind(chat: Message) {
-            messageText.text = chat.message
-            timeText.text = chat.createdAt
+            if(chat.imageUrl != null && chat.imageUrl != ""){
+                messageText.visibility = View.GONE
+                image_me.visibility = View.VISIBLE
+                Glide.with(context!!).load(chat.imageUrl).into(image_me)
+            } else {
+                messageText.text = chat.message
+                timeText.text = chat.createdAt
+            }
+
         }
     }
 
@@ -77,10 +88,17 @@ class ChatAdapter constructor(context : Context, entries: ArrayList<Message>) :
 
         private var messageText: TextView = view.findViewById(R.id.message_other)
         private var timeText: TextView = view.findViewById(R.id.timestamp_other)
+        private var image_other: ImageView = view.findViewById(R.id.image_other)
 
         override fun bind(chat: Message) {
-            messageText.text = chat.message
-            timeText.text = chat.createdAt
+            if(chat.imageUrl != null && chat.imageUrl != ""){
+                messageText.visibility = View.GONE
+                image_other.visibility = View.VISIBLE
+                Glide.with(context!!).load(chat.imageUrl).into(image_other)
+            } else {
+                messageText.text = chat.message
+                timeText.text = chat.createdAt
+            }
         }
     }
 

@@ -37,15 +37,16 @@ class CardsFragment : Fragment() {
 
     private lateinit var cardFrame: SwipeFlingAdapterView
     private lateinit var noMoreMatches: FrameLayout
-//    private lateinit var likeButton: ImageView
+
+    //    private lateinit var likeButton: ImageView
 //    private lateinit var dislikeButton: ImageView
     private lateinit var genresTextView: TextView
     private lateinit var instrumentsTextView: TextView
 
     private lateinit var viewModel: ProfileViewModel
 
-    private  var genres: java.util.ArrayList<Genre?>? = null
-    private  var instruments: java.util.ArrayList<Instrument?>? = null
+    private var genres: java.util.ArrayList<Genre?>? = null
+    private var instruments: java.util.ArrayList<Instrument?>? = null
 
     var cardsAdapter: CardsAdapter? = null
 
@@ -61,17 +62,18 @@ class CardsFragment : Fragment() {
         storageReference = FirebaseStorage.getInstance().reference
         currentUserId = auth.currentUser!!.uid
 
-        viewModel = ViewModelProvider(requireActivity() as MainActivity)[ProfileViewModel::class.java]
+        viewModel =
+            ViewModelProvider(requireActivity() as MainActivity)[ProfileViewModel::class.java]
         viewModel.genres.observe(requireActivity()) {
             if (it != null) {
                 genres = it
 
-                    val genreArrayList: java.util.ArrayList<String?> = java.util.ArrayList()
-                    genres!!.forEach { genre ->
-                        genreArrayList += genre!!.name
-                    }
-                    val genresString = genreArrayList.joinToString()
-                    genresTextView.text = genresString
+                val genreArrayList: java.util.ArrayList<String?> = java.util.ArrayList()
+                genres!!.forEach { genre ->
+                    genreArrayList += genre!!.name
+                }
+                val genresString = genreArrayList.joinToString()
+                genresTextView.text = genresString
             }
         }
 
@@ -99,7 +101,9 @@ class CardsFragment : Fragment() {
                     showFilterDialog()
                     true
                 }
-                else -> { false }
+                else -> {
+                    false
+                }
             }
         }
         //endregion
@@ -111,10 +115,10 @@ class CardsFragment : Fragment() {
 
         usersCards = ArrayList()
 
-        cardsAdapter = CardsAdapter(requireContext(), R.layout.card_item,  usersCards)
+        cardsAdapter = CardsAdapter(requireContext(), R.layout.card_item, usersCards)
         cardFrame.adapter = cardsAdapter
 
-        cardFrame.setFlingListener(object: SwipeFlingAdapterView.onFlingListener {
+        cardFrame.setFlingListener(object : SwipeFlingAdapterView.onFlingListener {
             override fun removeFirstObjectInAdapter() {
                 usersCards.removeAt(0)
                 cardsAdapter!!.notifyDataSetChanged()
@@ -122,13 +126,15 @@ class CardsFragment : Fragment() {
 
             override fun onLeftCardExit(p0: Any?) {
                 val card: Card = p0 as Card
-                databaseReference.child("Users").child(card.userId!!).child("connections").child("dislike").child(currentUserId).setValue(true)
+                databaseReference.child("Users").child(card.userId!!).child("connections")
+                    .child("dislike").child(currentUserId).setValue(true)
                 checkRowItem()
             }
 
             override fun onRightCardExit(p0: Any?) {
                 val card: Card = p0 as Card
-                databaseReference.child("Users").child(card.userId!!).child("connections").child("like").child(currentUserId).setValue(true)
+                databaseReference.child("Users").child(card.userId!!).child("connections")
+                    .child("like").child(currentUserId).setValue(true)
                 isMatchHappened(card.userId!!)
                 checkRowItem()
             }
@@ -199,37 +205,37 @@ class CardsFragment : Fragment() {
     }
 
     private fun filterCards(): ArrayList<Card?> {
-        val genreCardsList :ArrayList<Card?> = ArrayList()
-        val instrumentCardsList :ArrayList<Card?> = ArrayList()
-        val newCardsList :ArrayList<Card?> = ArrayList()
+        val genreCardsList: ArrayList<Card?> = ArrayList()
+        val instrumentCardsList: ArrayList<Card?> = ArrayList()
+        val newCardsList: ArrayList<Card?> = ArrayList()
 
         usersCards.forEach { card ->
             val express = card!!.genres != null && card.genres!!.isNotEmpty()
-            if(express){
+            if (express) {
                 card.genres!!.forEach { genre ->
                     genres!!.forEach {
-                        if(genre!!.id == it!!.id)
+                        if (genre!!.id == it!!.id)
                             genreCardsList.add(card)
                     }
                 }
             }
-            if(card.instruments != null && card.instruments!!.isNotEmpty()){
-                card.instruments!!.forEach{
+            if (card.instruments != null && card.instruments!!.isNotEmpty()) {
+                card.instruments!!.forEach {
                     instruments!!.forEach { instrument ->
-                        if(instrument!!.id == it!!.id)
+                        if (instrument!!.id == it!!.id)
                             instrumentCardsList.add(card)
                     }
                 }
             }
         }
-        if (genreCardsList == null || genreCardsList.isEmpty() ) {
+        if (genreCardsList == null || genreCardsList.isEmpty()) {
             return instrumentCardsList
         } else if (instrumentCardsList == null || instrumentCardsList.isEmpty()) {
             return genreCardsList
         } else {
             genreCardsList.forEach { genreCard ->
                 instrumentCardsList.forEach { instrumentCard ->
-                    if (genreCard!!.userId == instrumentCard!!.userId){
+                    if (genreCard!!.userId == instrumentCard!!.userId) {
                         newCardsList.add(genreCard)
                     }
                 }
@@ -254,9 +260,10 @@ class CardsFragment : Fragment() {
         databaseReference.child("Users").addChildEventListener(object : ChildEventListener {
             override fun onChildAdded(dataSnapshot: DataSnapshot, previousChildName: String?) {
                 if (dataSnapshot.exists() &&
-                    dataSnapshot.key != currentUserId  &&
+                    dataSnapshot.key != currentUserId &&
                     !dataSnapshot.child("connections").child("dislike").hasChild(currentUserId) &&
-                    !dataSnapshot.child("connections").child("like").hasChild(currentUserId)) {
+                    !dataSnapshot.child("connections").child("like").hasChild(currentUserId)
+                ) {
 
                     val card = dataSnapshot.getValue(Card::class.java)
                     card!!.userId = dataSnapshot.key!!
@@ -282,8 +289,10 @@ class CardsFragment : Fragment() {
 
     }
 
-    fun isMatchHappened( userId : String ){
-        val currentUserConnection: DatabaseReference = databaseReference.child("Users").child(currentUserId).child("connections").child("like").child(userId)
+    fun isMatchHappened(userId: String) {
+        val currentUserConnection: DatabaseReference =
+            databaseReference.child("Users").child(currentUserId).child("connections").child("like")
+                .child(userId)
         currentUserConnection.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 if (snapshot.exists()) {
