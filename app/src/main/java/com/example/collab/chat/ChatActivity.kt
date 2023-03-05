@@ -4,16 +4,19 @@ import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
+import android.media.AudioManager
+import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
+import android.provider.OpenableColumns
 import android.util.Log
 import android.view.WindowManager
 import android.widget.EditText
 import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -22,8 +25,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.collab.MainActivity
 import com.example.collab.R
 import com.example.collab.adapters.ChatAdapter
-import com.example.collab.models.Message
 import com.example.collab.models.Match
+import com.example.collab.models.Message
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
@@ -33,6 +36,8 @@ import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import com.example.collab.helpers.OnItemClickListener
+import com.example.collab.helpers.OnItemClickListenerSecond
 
 
 class ChatActivity : AppCompatActivity() {
@@ -51,6 +56,7 @@ class ChatActivity : AppCompatActivity() {
 
     private var imageUri: Uri? = null
     private val pickImage = 100
+    lateinit var mediaPlayer: MediaPlayer
 
     private val resultChat: ArrayList<Message> = ArrayList()
 
@@ -65,6 +71,7 @@ class ChatActivity : AppCompatActivity() {
         databaseReference = FirebaseDatabase.getInstance().reference
         storageReference = FirebaseStorage.getInstance().reference
         currentUserId = auth.currentUser!!.uid
+        mediaPlayer = MediaPlayer()
 
         val bundle: Bundle? = intent.extras
         bundle?.let {
@@ -91,7 +98,34 @@ class ChatActivity : AppCompatActivity() {
 
         val chatRV: RecyclerView = findViewById(R.id.chatRV)
         val layoutManager: RecyclerView.LayoutManager = LinearLayoutManager(context)
-        chatAdapter = ChatAdapter(context, getChatData())
+        chatAdapter = ChatAdapter(context, getChatData(),
+            object : OnItemClickListener<Message> {
+            override fun onItemClick(item: Message) {
+                mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC)
+
+                try {
+                    mediaPlayer.setDataSource(item.audioUrl)
+                    mediaPlayer.prepare()
+                    mediaPlayer.start()
+
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+
+            }
+        }, object : OnItemClickListenerSecond<Message> {
+                override fun onItemClick(item: Message) {
+                    if (mediaPlayer.isPlaying) {
+                        mediaPlayer.stop()
+                        mediaPlayer.reset()
+                        mediaPlayer.release()
+                    } else {
+                        Toast.makeText(applicationContext, "Audio not played..", Toast.LENGTH_SHORT).show()
+                    }
+
+                }
+            }
+        )
         chatRV.layoutManager = layoutManager
         chatRV.adapter = chatAdapter
 
@@ -135,6 +169,8 @@ class ChatActivity : AppCompatActivity() {
                     var createdByUser: String? = null
                     var createdAt: String? = null
                     var imageUrl: String? = null
+                    var audioUrl: String? = null
+                    var audioName: String? = null
                     if (snapshot.child("text").value != null) {
                         message = snapshot.child("text").value.toString()
                     }
@@ -147,12 +183,18 @@ class ChatActivity : AppCompatActivity() {
                     if (snapshot.child("imageUrl").value != null) {
                         imageUrl = snapshot.child("imageUrl").value.toString()
                     }
+                    if (snapshot.child("audioUrl").value != null) {
+                        audioUrl = snapshot.child("audioUrl").value.toString()
+                    }
+                    if (snapshot.child("audioName").value != null) {
+                        audioName = snapshot.child("audioName").value.toString()
+                    }
                     if(imageUrl != null && createdByUser != null && createdAt != null){
                         var currentUserBoolean = false
                         if (createdByUser == currentUserId) {
                             currentUserBoolean = true
                         }
-                        val newMessage = Message("", imageUrl, currentUserBoolean, createdAt)
+                        val newMessage = Message("", imageUrl, "","", currentUserBoolean, createdAt)
                         resultChat.add(newMessage)
                         chatAdapter.notifyDataSetChanged()
                     } else if (message != null && createdByUser != null && createdAt != null) {
@@ -160,9 +202,16 @@ class ChatActivity : AppCompatActivity() {
                         if (createdByUser == currentUserId) {
                             currentUserBoolean = true
                         }
-                        val newMessage = Message(message, "", currentUserBoolean, createdAt)
+                        val newMessage = Message(message, "", "","", currentUserBoolean, createdAt)
                         resultChat.add(newMessage)
                         chatAdapter.notifyDataSetChanged()
+                    } else if (audioUrl != null  && audioName != null && createdByUser != null && createdAt != null) {
+                        var currentUserBoolean = false
+                        if (createdByUser == currentUserId) {
+                            currentUserBoolean = true
+                        }
+                        val newMessage = Message("", "", audioUrl, audioName, currentUserBoolean, createdAt)
+                        resultChat.add(newMessage)
                     }
                 }
             }
@@ -233,6 +282,14 @@ class ChatActivity : AppCompatActivity() {
 
         musicTextView.setOnClickListener {
             //music
+//            val intent_upload = Intent()
+//            intent_upload.type = "audio/*"
+//            intent_upload.action = Intent.ACTION_PICK
+//            startActivityForResult(intent_upload, 1)
+            val playlist = Intent(Intent.ACTION_OPEN_DOCUMENT)
+            playlist.type = "audio/*"
+            startActivityForResult(playlist, 1)
+            dialog.dismiss()
         }
 
         dialog.setCancelable(true)
@@ -301,6 +358,87 @@ class ChatActivity : AppCompatActivity() {
         if (resultCode == RESULT_OK && requestCode == pickImage) {
             imageUri = data!!.data!!
             sendImageMessage()
+//            val type: String? = imageUri.let { returnUri ->
+//                contentResolver.getType(returnUri!!)
+//            }
+//            when (type){
+//                "audio/mpeg" -> sendAudioMessage()
+//                "image/jpeg" -> sendImageMessage()
+//            }
+
+        } else if (resultCode == RESULT_OK && requestCode == 1){
+            imageUri = data!!.data!!
+            var audioName = ""
+            imageUri.let { returnUri ->
+                 contentResolver.query(returnUri!!, null, null, null, null)
+            }?.use { cursor ->
+                val nameIndex = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME)
+                cursor.moveToFirst()
+                audioName = cursor.getString(nameIndex)
+            }
+            sendAudioMessage(audioName)
+
+//            val type: kotlin.String? = imageUri.let { returnUri ->
+//                contentResolver.getType(returnUri!!)
+//            }
+//            when (type){
+//                "audio/mpeg" -> sendAudioMessage()
+//                "image/jpeg" -> sendImageMessage()
+//            }
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun sendAudioMessage(audioName: String) {
+        val formatter = DateTimeFormatter.ofPattern("HH:mm")
+        val current = LocalDateTime.now().format(formatter)
+
+        storageReference = FirebaseStorage.getInstance().getReference("Chat/$chatId/$current")
+
+        var bitmap: Bitmap? = null
+
+//        try {
+//            bitmap = MediaStore.Images.Media.getBitmap(application.contentResolver, imageUri)
+//        } catch (e: IOException) {
+//            e.printStackTrace()
+//        }
+//
+//        val baos = ByteArrayOutputStream()
+//        bitmap!!.compress(Bitmap.CompressFormat.JPEG, 20, baos)
+//        val data: ByteArray = baos.toByteArray()
+//       // val uploadTask: UploadTask = storageReference.putBytes(data)
+        val uploadTask: UploadTask = storageReference.putFile(imageUri!!)
+        uploadTask.addOnCompleteListener {
+            if (it.isSuccessful) {
+                it.result.storage.downloadUrl.addOnSuccessListener {
+
+                    val newMessageDb: DatabaseReference = databaseChat.push()
+                    val newMessage: HashMap<String, String> = HashMap()
+
+                    newMessage["createdByUser"] = currentUserId
+                    newMessage["createdAt"] = current
+                    newMessage["audioName"] = audioName
+                    newMessage["audioUrl"] = it.toString()
+                    newMessageDb.setValue(newMessage)
+
+//                    databaseReference.child("Users").child(currentUserId).child("profileImage")
+//                        .setValue(it.toString()).addOnSuccessListener {
+//                            Log.e("", "Pic uploaded successfully to database")
+//
+//                        }.addOnFailureListener {
+//                            Log.e("", "Pic upload failed to database : $it")
+//                        }
+                }.addOnFailureListener {
+                    Log.e("", "Pic downloadUrl failed : $it")
+                }
+
+                finish()
+                Log.e("", "Pic uploaded successfully to storage")
+            }
+
+
+        }.addOnFailureListener {
+            Log.e("", "Pic uploaded failed to storage")
         }
     }
 
